@@ -1,7 +1,10 @@
-package com.casumo.recruitment.videorental.integration.film
+package com.casumo.recruitment.videorental.integration
 
 import com.casumo.recruitment.videorental.DataContainer
 import com.casumo.recruitment.videorental.IntegrationSpec
+import com.casumo.recruitment.videorental.configuration.TimeConfiguration
+import com.casumo.recruitment.videorental.configuration.database.DatabaseConfiguration
+import com.casumo.recruitment.videorental.configuration.film.FilmConfiguration
 import com.casumo.recruitment.videorental.film.Film
 import com.casumo.recruitment.videorental.film.FilmController
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,8 +21,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-@ContextConfiguration(classes = FilmConfiguration.class)
-@EnableSpringDataWebSupport
+@ContextConfiguration(classes = [
+        FilmConfiguration.class,
+        TimeConfiguration.class,
+        DatabaseConfiguration.class
+])
 class FilmControllerIntegrationSpec extends IntegrationSpec {
 
     @Autowired
@@ -34,7 +40,6 @@ class FilmControllerIntegrationSpec extends IntegrationSpec {
         this.mockMvc = MockMvcBuilders
                 .standaloneSetup(filmController)
                 .setControllerAdvice(restControllerAdvice)
-                .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
                 .alwaysDo(MockMvcResultHandlers.print())
                 .build()
 
@@ -42,29 +47,35 @@ class FilmControllerIntegrationSpec extends IntegrationSpec {
     }
 
     def 'should get catalogue of films'() {
-        when: 'I ask about catalog of films'
+        when: 'I ask about catalogue of films'
 
-        ResultActions filmsResponse = this.mockMvc.perform(get('/api/films')
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
+        ResultActions filmsResponse = this.mockMvc
+                .perform(get('/api/films')
+                .contentType(MediaType.APPLICATION_JSON))
 
-        then: 'I get Spider Man and Matrix 11'
+        then: 'I get whole catalogue of films'
         List<Film> listOfFilms = Arrays.asList(
                 dataContainer.matrix(),
-                dataContainer.spiderMan()
+                dataContainer.spiderMan(),
+                dataContainer.spiderManBetterOne(),
+                dataContainer.outOfAfrica()
         )
 
-        filmsResponse.andExpect(status().isOk())
-                .andExpect(content().json(IntegrationSpec.buildJson(listOfFilms)))
+        filmsResponse
+                .andExpect(status().isOk())
+                .andExpect(content().json(buildJson(listOfFilms)))
     }
 
     def 'should get films details'() {
         when: 'I ask about Matrix details'
         def matrix = dataContainer.matrix()
-        ResultActions filmsResponse = this.mockMvc.perform(get('/api/films/{id}', matrix.id)
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
+        ResultActions getFilmsResultAction = this.mockMvc
+                .perform(get('/api/films/{id}', matrix.id)
+                .contentType(MediaType.APPLICATION_JSON))
 
         then: 'I get details about Matrix'
-        filmsResponse.andExpect(status().isOk())
-                .andExpect(content().json(IntegrationSpec.buildJson(matrix)))
+        getFilmsResultAction
+                .andExpect(status().isOk())
+                .andExpect(content().json(buildJson(matrix)))
     }
 }

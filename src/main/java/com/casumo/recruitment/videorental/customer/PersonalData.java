@@ -1,11 +1,17 @@
 package com.casumo.recruitment.videorental.customer;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
 
-@Embeddable
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
+@Embeddable
 public class PersonalData {
     private String firstName;
     private String lastName;

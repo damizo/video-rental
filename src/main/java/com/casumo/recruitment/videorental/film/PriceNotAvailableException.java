@@ -8,8 +8,7 @@ import java.util.Map;
 
 @Data
 @AllArgsConstructor
-public class ReliefNotAvailableException extends RuntimeException {
-
+public class PriceNotAvailableException extends RuntimeException {
     private Map<String, String> params = new HashMap<>();
 
 }

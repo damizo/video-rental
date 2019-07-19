@@ -16,7 +16,7 @@ public class SwaggerConfiguration {
     @Bean
     public Docket SwaggerApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("codecouple-api")
+                .groupName("video-rental-api")
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.any())

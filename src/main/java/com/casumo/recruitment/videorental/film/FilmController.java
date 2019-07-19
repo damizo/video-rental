@@ -11,17 +11,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/films")
 @AllArgsConstructor
-public class FilmController {
+public class FilmController implements FilmSwaggerDocumentation {
 
-    private final FilmFinder filmFinder;
+    private final FilmFacade filmFacade;
 
     @GetMapping
     public List<Film> getFilms() {
-        return filmFinder.getFilms();
+        return filmFacade.getFilms();
     }
 
     @GetMapping("/{filmId}")
     public Film getFilm(@PathVariable Long filmId) {
-        return filmFinder.getFilm(filmId);
+        return filmFacade.getFilm(filmId);
     }
+
 }

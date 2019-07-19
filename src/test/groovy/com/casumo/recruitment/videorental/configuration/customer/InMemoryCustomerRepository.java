@@ -1,4 +1,4 @@
-package com.casumo.recruitment.videorental.integration.customer;
+package com.casumo.recruitment.videorental.configuration.customer;
 
 import com.casumo.recruitment.videorental.customer.Customer;
 import com.casumo.recruitment.videorental.customer.CustomerRepository;
@@ -14,17 +14,33 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class InMemoryCustomerRepository implements CustomerRepository {
-    private Map<Long, Customer> films = new ConcurrentHashMap<>();
+    private Map<Long, Customer> customers = new ConcurrentHashMap<>();
 
     @Override
     public Optional<Customer> findById(Long filmId) {
-        return Optional.ofNullable(films.get(filmId));
+        return Optional.ofNullable(customers.get(filmId));
+    }
+
+    @Override
+    public Optional<Customer> findByPersonalDataEmail(String email) {
+        return customers.entrySet().stream()
+                .map(Map.Entry::getValue)
+                .filter(customer -> customer.getEmail().equals(email))
+                .findAny();
     }
 
     @Override
     public <S extends Customer> S save(S s) {
-        this.films.put(s.getId(), s);
+        Long id = resolveId(s);
+        s.setId(id);
+        this.customers.put(s.getId(), s);
         return s;
+    }
+
+
+    private <S extends Customer> Long resolveId(S s) {
+        int size = this.customers.keySet().size();
+        return !Optional.ofNullable(s.getId()).isPresent() ? size + 1 : s.getId();
     }
 
     @Override
@@ -39,7 +55,7 @@ public class InMemoryCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return films.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
+        return customers.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
     }
 
     @Override
@@ -74,7 +90,7 @@ public class InMemoryCustomerRepository implements CustomerRepository {
 
     @Override
     public void deleteAll() {
-        throw new UnsupportedOperationException();
+        this.customers = new ConcurrentHashMap<>();
     }
 
     @Override

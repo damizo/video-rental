@@ -1,4 +1,4 @@
-package com.casumo.recruitment.videorental.sharedkernel.time;
+package com.casumo.recruitment.videorental.shared.time;
 
 import org.springframework.stereotype.Component;
 

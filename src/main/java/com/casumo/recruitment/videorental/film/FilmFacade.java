@@ -8,9 +8,9 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-@Transactional(readOnly = true)
+@Transactional
 @AllArgsConstructor
-public class FilmFinder {
+public class FilmFacade {
 
     private final FilmRepository filmRepository;
 

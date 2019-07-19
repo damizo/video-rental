@@ -1,4 +1,4 @@
-package com.casumo.recruitment.videorental.integration.film;
+package com.casumo.recruitment.videorental.configuration.film;
 
 import com.casumo.recruitment.videorental.film.Film;
 import com.casumo.recruitment.videorental.film.FilmRepository;
@@ -75,7 +75,7 @@ public class InMemoryFilmRepository implements FilmRepository {
 
     @Override
     public void deleteAll() {
-        throw new UnsupportedOperationException();
+        this.films = new ConcurrentHashMap<>();
     }
 
     @Override
