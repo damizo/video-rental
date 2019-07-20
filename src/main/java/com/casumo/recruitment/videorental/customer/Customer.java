@@ -1,6 +1,8 @@
 package com.casumo.recruitment.videorental.customer;
 
 import com.casumo.recruitment.videorental.shared.CurrencyType;
+import com.casumo.recruitment.videorental.shared.domain.PersonalData;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Builder
@@ -18,6 +21,7 @@ import javax.persistence.Id;
 public class Customer {
 
     @Id
+    @GeneratedValue
     private Long id;
 
     private Integer bonusPoints = 0;

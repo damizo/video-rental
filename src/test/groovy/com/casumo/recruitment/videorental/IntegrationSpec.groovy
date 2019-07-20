@@ -1,6 +1,6 @@
 package com.casumo.recruitment.videorental
 
-import com.casumo.recruitment.videorental.infrastructure.GlobalRestControllerAdvice
+
 import com.casumo.recruitment.videorental.shared.time.TimeProvider
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
+import org.springframework.mock.web.MockHttpSession
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 

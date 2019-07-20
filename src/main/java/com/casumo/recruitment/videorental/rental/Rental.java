@@ -2,27 +2,27 @@ package com.casumo.recruitment.videorental.rental;
 
 import com.casumo.recruitment.videorental.customer.Customer;
 import com.casumo.recruitment.videorental.film.FilmType;
-import com.google.common.collect.ImmutableMap;
+import com.casumo.recruitment.videorental.shared.CurrencyType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity
 public class Rental {
 
     @Id
+    @GeneratedValue
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -39,11 +39,18 @@ public class Rental {
     private LocalDate actualReturnDate;
 
     @Enumerated(EnumType.STRING)
+    private CurrencyType currency = CurrencyType.SEK;
+
+    @Enumerated(EnumType.STRING)
     private FilmType filmType;
 
+    @Enumerated(EnumType.STRING)
+    private RentalStatus rentalStatus = RentalStatus.STARTED;
 
-    public void returnFilm(LocalDate returnDate) {
+    public Rental returnFilm(LocalDate returnDate) {
         this.actualReturnDate = returnDate;
+        this.rentalStatus = RentalStatus.END;
+        return this;
     }
 
     public Integer getExpectedDaysOfRental() {
@@ -56,6 +63,10 @@ public class Rental {
     }
 
     public BigDecimal getSurcharge() {
+        if (!isReturned()) {
+            return BigDecimal.ZERO;
+        }
+
         Integer expectedDaysOfRental = getExpectedDaysOfRental();
         Integer lateDaysOfRental = getLateDaysOfRental();
         return filmType.calculateSurcharge(lateDaysOfRental, expectedDaysOfRental);
@@ -65,5 +76,9 @@ public class Rental {
         long lateDays = DAYS.between(expectedReturnDate, actualReturnDate);
         long noLateDays = 0;
         return BigDecimal.valueOf(lateDays <= noLateDays ? noLateDays : lateDays).intValue();
+    }
+
+    private boolean isReturned() {
+        return Optional.ofNullable(actualReturnDate).isPresent();
     }
 }

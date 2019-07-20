@@ -1,12 +1,12 @@
 package com.casumo.recruitment.videorental.integration
 
-import com.casumo.recruitment.videorental.DataContainer
+import com.casumo.recruitment.videorental.infrastructure.DataContainer
 import com.casumo.recruitment.videorental.IntegrationSpec
 import com.casumo.recruitment.videorental.configuration.customer.CustomerConfiguration
 import com.casumo.recruitment.videorental.configuration.database.DatabaseConfiguration
 import com.casumo.recruitment.videorental.customer.Customer
 import com.casumo.recruitment.videorental.customer.CustomerController
-import com.casumo.recruitment.videorental.customer.PersonalData
+import com.casumo.recruitment.videorental.shared.domain.PersonalData
 import com.casumo.recruitment.videorental.shared.time.TimeProvider
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest

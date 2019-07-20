@@ -3,7 +3,10 @@ package com.casumo.recruitment.videorental.configuration
 import com.casumo.recruitment.videorental.shared.time.TimeProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.mock.web.MockHttpSession
 import spock.mock.DetachedMockFactory
+
+import javax.servlet.http.HttpSession
 
 @Configuration
 class TimeConfiguration {
@@ -13,5 +16,10 @@ class TimeConfiguration {
     @Bean
     TimeProvider timeProvider() {
         return factory.Spy(TimeProvider)
+    }
+
+    @Bean
+    HttpSession httpSession() {
+        return factory.Spy(MockHttpSession)
     }
 }

@@ -1,15 +1,18 @@
-package com.casumo.recruitment.videorental;
+package com.casumo.recruitment.videorental.infrastructure;
 
 import com.casumo.recruitment.videorental.customer.Customer;
 import com.casumo.recruitment.videorental.customer.CustomerRepository;
-import com.casumo.recruitment.videorental.customer.PersonalData;
 import com.casumo.recruitment.videorental.film.Film;
 import com.casumo.recruitment.videorental.film.FilmRepository;
 import com.casumo.recruitment.videorental.film.FilmType;
 import com.casumo.recruitment.videorental.rental.RentFilmEntry;
+import com.casumo.recruitment.videorental.rental.RentalOrderRepository;
 import com.casumo.recruitment.videorental.rental.RentalRepository;
+import com.casumo.recruitment.videorental.shared.domain.PersonalData;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
 
 @Component
 @AllArgsConstructor
@@ -18,7 +21,12 @@ public class DataContainer {
     private final FilmRepository filmRepository;
     private final CustomerRepository customerRepository;
     private final RentalRepository rentalRepository;
+    private final RentalOrderRepository rentalOrderRepository;
 
+
+    public void initializeCustomers() {
+        customerRepository.save(customer());
+    }
 
     public void initializeFilms() {
         filmRepository.save(matrix());
@@ -30,16 +38,12 @@ public class DataContainer {
     public void cleanUp() {
         filmRepository.deleteAll();
         rentalRepository.deleteAll();
+        rentalOrderRepository.deleteAll();
         customerRepository.deleteAll();
-    }
-
-    public void initializeCustomers() {
-        customerRepository.save(customer());
     }
 
     public Customer customer() {
         return Customer.builder()
-                .id(1L)
                 .bonusPoints(10)
                 .personalData(PersonalData.builder()
                         .email("hello@casumo.com")
@@ -51,7 +55,6 @@ public class DataContainer {
 
     public Film spiderMan() {
         return Film.builder()
-                .id(1L)
                 .barCode("F1002")
                 .title("Spider Man")
                 .type(FilmType.REGULAR)
@@ -60,7 +63,6 @@ public class DataContainer {
 
     public Film matrix() {
         return Film.builder()
-                .id(2L)
                 .barCode("F1001")
                 .title("Matrix 11")
                 .type(FilmType.NEW_RELEASE)
@@ -69,7 +71,6 @@ public class DataContainer {
 
     public Film spiderManBetterOne() {
         return Film.builder()
-                .id(3L)
                 .barCode("F1003")
                 .title("Spider Man 2")
                 .type(FilmType.REGULAR)
@@ -78,7 +79,6 @@ public class DataContainer {
 
     public Film outOfAfrica() {
         return Film.builder()
-                .id(4L)
                 .barCode("F1004")
                 .title("Out of Africa")
                 .type(FilmType.OLD)
@@ -86,18 +86,21 @@ public class DataContainer {
     }
 
     public RentFilmEntry matrixEntry(Integer days) {
-        return new RentFilmEntry(matrix().getId(), days);
+        return new RentFilmEntry(Identifiers.ONE, days, BigDecimal.ZERO);
     }
 
     public RentFilmEntry spiderManEntry(Integer days) {
-        return new RentFilmEntry(spiderMan().getId(), days);
-    }
-
-    public RentFilmEntry spiderManBetterOneEntry(Integer days) {
-        return new RentFilmEntry(spiderManBetterOne().getId(), days);
+        return new RentFilmEntry(Identifiers.TWO, days, BigDecimal.ZERO);
     }
 
     public RentFilmEntry outOfAfricaEntry(Integer days) {
-        return new RentFilmEntry(outOfAfrica().getId(), days);
+        return new RentFilmEntry(Identifiers.FOUR, days, BigDecimal.ZERO);
+    }
+
+    private static final class Identifiers {
+        private static final Long ONE = 1L;
+        private static final Long TWO = 2L;
+        private static final Long THREE = 3L;
+        private static final Long FOUR = 4L;
     }
 }

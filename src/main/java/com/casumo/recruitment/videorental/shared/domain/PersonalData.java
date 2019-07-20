@@ -1,4 +1,4 @@
-package com.casumo.recruitment.videorental.customer;
+package com.casumo.recruitment.videorental.shared.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

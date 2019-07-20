@@ -1,7 +1,7 @@
 package com.casumo.recruitment.videorental.customer;
 
+import com.casumo.recruitment.videorental.shared.domain.PersonalData;
 import lombok.AllArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,6 +18,6 @@ public class CustomerController implements CustomerSwaggerDocumentation {
 
     @PostMapping
     public Customer create(@RequestBody PersonalData personalData) {
-        return customerFacade.createClient(personalData);
+        return customerFacade.createCustomer(personalData);
     }
 }

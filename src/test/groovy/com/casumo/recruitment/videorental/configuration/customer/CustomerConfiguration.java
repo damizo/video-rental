@@ -2,6 +2,7 @@ package com.casumo.recruitment.videorental.configuration.customer;
 
 import com.casumo.recruitment.videorental.customer.CustomerController;
 import com.casumo.recruitment.videorental.customer.CustomerFacade;
+import com.casumo.recruitment.videorental.customer.CustomerFactory;
 import com.casumo.recruitment.videorental.customer.CustomerRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,12 +16,17 @@ public class CustomerConfiguration {
     }
 
     @Bean
-    public CustomerFacade customerFinder(CustomerRepository customerRepository) {
-        return new CustomerFacade(customerRepository);
+    public CustomerFacade customerFinder(CustomerRepository customerRepository, CustomerFactory customerFactory) {
+        return new CustomerFacade(customerRepository, customerFactory);
     }
 
     @Bean
     public CustomerRepository customerRepository() {
         return new InMemoryCustomerRepository();
+    }
+
+    @Bean
+    public CustomerFactory customerFactory() {
+        return new CustomerFactory();
     }
 }

@@ -2,6 +2,7 @@ package com.casumo.recruitment.videorental.configuration.film;
 
 import com.casumo.recruitment.videorental.film.Film;
 import com.casumo.recruitment.videorental.film.FilmRepository;
+import com.casumo.recruitment.videorental.rental.Rental;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,8 +25,14 @@ public class InMemoryFilmRepository implements FilmRepository {
 
     @Override
     public <S extends Film> S save(S s) {
-        this.films.put(s.getId(), s);
+        Long id = resolveId(s);
+        this.films.put(id, s);
+        s.setId(id);
         return s;
+    }
+
+    private <S extends Film> Long resolveId(S s) {
+        return !Optional.ofNullable(s.getId()).isPresent() ? this.films.keySet().size() + 1 : s.getId();
     }
 
     @Override

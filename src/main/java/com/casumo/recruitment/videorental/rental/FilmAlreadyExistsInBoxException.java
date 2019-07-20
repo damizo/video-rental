@@ -5,8 +5,7 @@ import lombok.AllArgsConstructor;
 import java.util.Map;
 
 @AllArgsConstructor
-public class RentalNotFoundException extends RuntimeException {
+public class FilmAlreadyExistsInBoxException extends RuntimeException {
 
     private Map<String, String> params;
-
 }

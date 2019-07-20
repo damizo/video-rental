@@ -1,6 +1,6 @@
 package com.casumo.recruitment.videorental.integration
 
-import com.casumo.recruitment.videorental.DataContainer
+import com.casumo.recruitment.videorental.infrastructure.DataContainer
 import com.casumo.recruitment.videorental.IntegrationSpec
 import com.casumo.recruitment.videorental.configuration.TimeConfiguration
 import com.casumo.recruitment.videorental.configuration.database.DatabaseConfiguration
@@ -8,8 +8,6 @@ import com.casumo.recruitment.videorental.configuration.film.FilmConfiguration
 import com.casumo.recruitment.videorental.film.Film
 import com.casumo.recruitment.videorental.film.FilmController
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver
-import org.springframework.data.web.config.EnableSpringDataWebSupport
 import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc

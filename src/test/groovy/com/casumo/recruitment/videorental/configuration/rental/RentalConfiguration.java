@@ -5,6 +5,7 @@ import com.casumo.recruitment.videorental.configuration.customer.CustomerConfigu
 import com.casumo.recruitment.videorental.configuration.database.DatabaseConfiguration;
 import com.casumo.recruitment.videorental.configuration.film.FilmConfiguration;
 import com.casumo.recruitment.videorental.customer.CustomerRepository;
+import com.casumo.recruitment.videorental.film.FilmFacade;
 import com.casumo.recruitment.videorental.film.FilmRepository;
 import com.casumo.recruitment.videorental.rental.*;
 import com.casumo.recruitment.videorental.shared.time.TimeProvider;
@@ -18,13 +19,30 @@ public class RentalConfiguration {
 
     @Bean
     public RentalFacade rentalFacade(RentalRepository rentalRepository, FilmRepository filmRepository,
-                                     CustomerRepository customerRepository, TimeProvider timeProvider) {
-        return new RentalFacade(customerRepository, filmRepository, rentalRepository, timeProvider);
+                                     CustomerRepository customerRepository, RentalOrderRepository rentalOrderRepository,
+                                     RentalFactory rentalFactory, TimeProvider timeProvider, RentalMapper rentalOrderMapper) {
+        return new RentalFacade(customerRepository, filmRepository, rentalRepository,
+                rentalOrderRepository, rentalFactory, rentalOrderMapper, timeProvider);
     }
 
     @Bean
-    public RentalController rentalController(RentalFacade rentalFacade) {
-        return new RentalController(rentalFacade);
+    public RentalBoxStorage rentalBoxStorage() {
+        return new RentalBoxStorage();
+    }
+
+    @Bean
+    public RentalFactory rentalFactory() {
+        return new RentalFactory();
+    }
+
+    @Bean
+    public RentalMapper rentalOrderMapper() {
+        return new RentalMapper();
+    }
+
+    @Bean
+    public RentalController rentalController(RentalFacade rentalFacade, RentalBoxStorage rentDraftStorage, FilmFacade filmFacade) {
+        return new RentalController(rentalFacade, filmFacade, rentDraftStorage);
     }
 
 }

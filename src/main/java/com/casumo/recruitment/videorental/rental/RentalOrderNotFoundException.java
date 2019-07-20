@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import java.util.Map;
 
 @AllArgsConstructor
-public class RentalNotFoundException extends RuntimeException {
+public class RentalOrderNotFoundException extends RuntimeException {
 
     private Map<String, String> params;
 
