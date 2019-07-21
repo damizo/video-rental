@@ -2,7 +2,6 @@ package com.casumo.recruitment.videorental.rental;
 
 import com.casumo.recruitment.videorental.customer.Customer;
 import com.casumo.recruitment.videorental.film.FilmType;
-import com.casumo.recruitment.videorental.shared.CurrencyType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,24 +43,25 @@ public class Rental {
     private FilmType filmType;
 
     @Enumerated(EnumType.STRING)
-    private RentalStatus rentalStatus = RentalStatus.STARTED;
+    private RentalStatus rentalStatus;
+
+    private BigDecimal price = BigDecimal.ZERO;
+    private BigDecimal surcharge = BigDecimal.ZERO;
+
+    public void rent(LocalDate rentDate) {
+        this.rentalStatus = RentalStatus.STARTED;
+        this.rentDate = rentDate;
+        this.price = calculatePrice();
+    }
 
     public Rental returnFilm(LocalDate returnDate) {
         this.actualReturnDate = returnDate;
         this.rentalStatus = RentalStatus.END;
+        this.surcharge = calculateSurcharge();
         return this;
     }
 
-    public Integer getExpectedDaysOfRental() {
-        return BigDecimal.valueOf(DAYS.between(rentDate, expectedReturnDate)).intValue();
-    }
-
-    public BigDecimal getPrice() {
-        Integer expectedDaysOfRental = getExpectedDaysOfRental();
-        return filmType.calculatePrice(expectedDaysOfRental);
-    }
-
-    public BigDecimal getSurcharge() {
+    private BigDecimal calculateSurcharge() {
         if (!isReturned()) {
             return BigDecimal.ZERO;
         }
@@ -69,6 +69,15 @@ public class Rental {
         Integer expectedDaysOfRental = getExpectedDaysOfRental();
         Integer lateDaysOfRental = getLateDaysOfRental();
         return filmType.calculateSurcharge(lateDaysOfRental, expectedDaysOfRental);
+    }
+
+    private BigDecimal calculatePrice() {
+        Integer expectedDaysOfRental = getExpectedDaysOfRental();
+        return filmType.calculatePrice(expectedDaysOfRental);
+    }
+
+    private Integer getExpectedDaysOfRental() {
+        return BigDecimal.valueOf(DAYS.between(rentDate, expectedReturnDate)).intValue();
     }
 
     private Integer getLateDaysOfRental() {

@@ -6,11 +6,13 @@ import com.casumo.recruitment.videorental.configuration.database.DatabaseConfigu
 import com.casumo.recruitment.videorental.customer.CustomerController
 import com.casumo.recruitment.videorental.customer.CustomerDTO
 import com.casumo.recruitment.videorental.infrastructure.IntegrationSpec
+import com.casumo.recruitment.videorental.infrastructure.Profiles
 import com.casumo.recruitment.videorental.shared.CurrencyType
 import com.casumo.recruitment.videorental.shared.dto.PersonalDataDTO
 import com.casumo.recruitment.videorental.shared.time.TimeProvider
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.annotation.Profile
 import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.ResultActions
@@ -22,6 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
+@Profile(Profiles.TEST)
 @ContextConfiguration(classes = [
         CustomerConfiguration.class,
         TimeProvider.class,

@@ -1,13 +1,14 @@
 package com.casumo.recruitment.videorental.integration
 
+import com.casumo.recruitment.videorental.configuration.TimeConfiguration
 import com.casumo.recruitment.videorental.configuration.database.DatabaseConfiguration
 import com.casumo.recruitment.videorental.configuration.film.FilmConfiguration
-import com.casumo.recruitment.videorental.film.Film
 import com.casumo.recruitment.videorental.film.FilmController
 import com.casumo.recruitment.videorental.film.FilmDTO
 import com.casumo.recruitment.videorental.infrastructure.IntegrationSpec
-import com.casumo.recruitment.videorental.configuration.TimeConfiguration
+import com.casumo.recruitment.videorental.infrastructure.Profiles
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Profile
 import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.ResultActions
@@ -18,6 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
+@Profile(Profiles.TEST)
 @ContextConfiguration(classes = [
         FilmConfiguration.class,
         TimeConfiguration.class,

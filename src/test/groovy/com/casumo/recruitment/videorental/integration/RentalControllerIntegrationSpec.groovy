@@ -5,12 +5,14 @@ import com.casumo.recruitment.videorental.configuration.rental.RentalConfigurati
 import com.casumo.recruitment.videorental.customer.CustomerController
 import com.casumo.recruitment.videorental.customer.CustomerRepository
 import com.casumo.recruitment.videorental.infrastructure.IntegrationSpec
+import com.casumo.recruitment.videorental.infrastructure.Profiles
 import com.casumo.recruitment.videorental.rental.RentFilmEntryDTO
 import com.casumo.recruitment.videorental.rental.RentalController
 import com.casumo.recruitment.videorental.rental.RentalOrderDraftDTO
 import com.casumo.recruitment.videorental.shared.time.TimeProvider
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.annotation.Profile
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.mock.web.MockHttpSession
@@ -19,12 +21,11 @@ import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
+@Profile(Profiles.TEST)
 @ContextConfiguration(classes = [
         RentalConfiguration.class,
         TimeProvider.class,

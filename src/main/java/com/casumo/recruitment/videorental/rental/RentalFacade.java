@@ -64,8 +64,9 @@ public class RentalFacade {
         customer.increaseBonusPoints(film.getType().getBonusPoints());
 
         LocalDate today = timeProvider.today();
-        Rental rental = rentalFactory.create(customer, today, film.getType(), today.plusDays(numberOfDays));
 
+        Rental rental = rentalFactory.create(customer, today, film.getType(), today.plusDays(numberOfDays));
+        rental.rent(timeProvider.today());
         return rentalRepository.save(rental);
     }
 }

@@ -1,5 +1,6 @@
 package com.casumo.recruitment.videorental.acceptance
 
+import com.casumo.recruitment.videorental.configuration.TimeConfiguration
 import com.casumo.recruitment.videorental.configuration.customer.CustomerConfiguration
 import com.casumo.recruitment.videorental.configuration.database.DatabaseConfiguration
 import com.casumo.recruitment.videorental.configuration.rental.RentalConfiguration
@@ -8,11 +9,13 @@ import com.casumo.recruitment.videorental.customer.CustomerController
 import com.casumo.recruitment.videorental.customer.CustomerRepository
 import com.casumo.recruitment.videorental.film.FilmType
 import com.casumo.recruitment.videorental.infrastructure.IntegrationSpec
-import com.casumo.recruitment.videorental.configuration.TimeConfiguration
+import com.casumo.recruitment.videorental.infrastructure.Profiles
 import com.casumo.recruitment.videorental.rental.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.annotation.Profile
 import org.springframework.http.MediaType
+import org.springframework.mock.web.MockHttpSession
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
@@ -25,6 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
+@Profile(Profiles.TEST)
 @SpringBootTest
 @ContextConfiguration(classes = [RentalConfiguration.class,
         TimeConfiguration.class,
@@ -50,6 +54,8 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
                 .setMessageConverters(mappingJackson2HttpMessageConverter)
                 .alwaysDo(MockMvcResultHandlers.print())
                 .build()
+
+        httpSession = new MockHttpSession()
     }
 
     def cleanup() {

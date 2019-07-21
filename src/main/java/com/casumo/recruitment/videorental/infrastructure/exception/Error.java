@@ -1,4 +1,4 @@
-package com.casumo.recruitment.videorental.infrastructure;
+package com.casumo.recruitment.videorental.infrastructure.exception;
 
 import lombok.Builder;
 import lombok.Data;

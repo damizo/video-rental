@@ -2,7 +2,6 @@ package com.casumo.recruitment.videorental.configuration.film;
 
 import com.casumo.recruitment.videorental.film.Film;
 import com.casumo.recruitment.videorental.film.FilmRepository;
-import com.casumo.recruitment.videorental.rental.Rental;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -87,32 +86,32 @@ public class InMemoryFilmRepository implements FilmRepository {
 
     @Override
     public <S extends Film> List<S> saveAll(Iterable<S> iterable) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void flush() {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public <S extends Film> S saveAndFlush(S s) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void deleteInBatch(Iterable<Film> iterable) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void deleteAllInBatch() {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Film getOne(Long aLong) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -122,17 +121,17 @@ public class InMemoryFilmRepository implements FilmRepository {
 
     @Override
     public <S extends Film> List<S> findAll(Example<S> example) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public <S extends Film> List<S> findAll(Example<S> example, Sort sort) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public <S extends Film> Page<S> findAll(Example<S> example, Pageable pageable) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override

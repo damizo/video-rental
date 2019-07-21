@@ -32,8 +32,7 @@ public class FilmFacade {
 
     public BigDecimal checkPrice(Long filmId, Integer numberOfDays) {
         return filmRepository.findById(filmId)
-                .orElseThrow(() -> new FilmNotFoundException(Collections.singletonMap("id", String.valueOf(filmId))))
-                .getType()
-                .calculatePrice(numberOfDays);
+                .map(film -> film.checkPrice(numberOfDays))
+                .orElseThrow(() -> new FilmNotFoundException(Collections.singletonMap("id", String.valueOf(filmId))));
     }
 }

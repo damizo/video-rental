@@ -2,7 +2,7 @@ package com.casumo.recruitment.videorental;
 
 import com.casumo.recruitment.videorental.customer.CustomerAlreadyExistsException;
 import com.casumo.recruitment.videorental.film.FilmNotFoundException;
-import com.casumo.recruitment.videorental.infrastructure.Error;
+import com.casumo.recruitment.videorental.infrastructure.exception.Error;
 import com.casumo.recruitment.videorental.rental.CannotCalculatePriceException;
 import com.casumo.recruitment.videorental.rental.FilmAlreadyExistsInBoxException;
 import com.casumo.recruitment.videorental.rental.NoCalculationTypeFoundException;

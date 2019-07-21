@@ -95,7 +95,7 @@ public class InMemoryCustomerRepository implements CustomerRepository {
 
     @Override
     public <S extends Customer> List<S> saveAll(Iterable<S> iterable) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -105,22 +105,22 @@ public class InMemoryCustomerRepository implements CustomerRepository {
 
     @Override
     public <S extends Customer> S saveAndFlush(S s) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void deleteInBatch(Iterable<Customer> iterable) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void deleteAllInBatch() {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Customer getOne(Long aLong) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -130,17 +130,17 @@ public class InMemoryCustomerRepository implements CustomerRepository {
 
     @Override
     public <S extends Customer> List<S> findAll(Example<S> example) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public <S extends Customer> List<S> findAll(Example<S> example, Sort sort) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public <S extends Customer> Page<S> findAll(Example<S> example, Pageable pageable) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override

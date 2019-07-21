@@ -85,32 +85,32 @@ public class InMemoryRentalRepository implements RentalRepository {
 
     @Override
     public <S extends Rental> List<S> saveAll(Iterable<S> iterable) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void flush() {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public <S extends Rental> S saveAndFlush(S s) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void deleteInBatch(Iterable<Rental> iterable) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void deleteAllInBatch() {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Rental getOne(Long aLong) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -120,17 +120,17 @@ public class InMemoryRentalRepository implements RentalRepository {
 
     @Override
     public <S extends Rental> List<S> findAll(Example<S> example) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public <S extends Rental> List<S> findAll(Example<S> example, Sort sort) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public <S extends Rental> Page<S> findAll(Example<S> example, Pageable pageable) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override

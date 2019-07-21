@@ -22,7 +22,7 @@ public class RentalOrder {
     @GeneratedValue
     private Long id;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private List<Rental> rentals = new ArrayList<>();
 
     public RentalOrder(List<Rental> rentals) {
@@ -33,13 +33,13 @@ public class RentalOrder {
         return rentals.stream()
                 .map(Rental::getPrice)
                 .reduce(BigDecimal::add)
-                .orElseThrow(() -> new CannotCalculatePriceException(Collections.singletonMap("id", String.valueOf(id))));
+                .orElse(BigDecimal.ZERO);
     }
 
     public BigDecimal getTotalSurcharge() {
         return rentals.stream()
                 .map(Rental::getSurcharge)
                 .reduce(BigDecimal::add)
-                .orElseThrow(() -> new CannotCalculatePriceException(Collections.singletonMap("id", String.valueOf(id))));
+                .orElse(BigDecimal.ZERO);
     }
 }

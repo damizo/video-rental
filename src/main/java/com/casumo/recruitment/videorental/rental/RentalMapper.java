@@ -3,6 +3,7 @@ package com.casumo.recruitment.videorental.rental;
 import com.casumo.recruitment.videorental.film.FilmType;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -19,8 +20,8 @@ public class RentalMapper {
                 .expectedReturnDate(rental.getExpectedReturnDate())
                 .rentDate(rental.getRentDate())
                 .filmType(maybeFilmType.map(Enum::name).orElse(null))
-                .price(rental.getPrice())
-                .surcharge(rental.getSurcharge())
+                .price(Optional.ofNullable(rental.getPrice()).orElse(BigDecimal.ZERO))
+                .surcharge(Optional.ofNullable(rental.getSurcharge()).orElse(BigDecimal.ZERO))
                 .status(maybeStatus.map(Enum::name).orElse(null))
                 .build();
     }

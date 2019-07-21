@@ -85,7 +85,7 @@ public class InMemoryRentalOrderRepository implements RentalOrderRepository {
 
     @Override
     public <S extends RentalOrder> List<S> saveAll(Iterable<S> iterable) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -95,22 +95,22 @@ public class InMemoryRentalOrderRepository implements RentalOrderRepository {
 
     @Override
     public <S extends RentalOrder> S saveAndFlush(S s) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void deleteInBatch(Iterable<RentalOrder> iterable) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void deleteAllInBatch() {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public RentalOrder getOne(Long aLong) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -120,26 +120,26 @@ public class InMemoryRentalOrderRepository implements RentalOrderRepository {
 
     @Override
     public <S extends RentalOrder> List<S> findAll(Example<S> example) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public <S extends RentalOrder> List<S> findAll(Example<S> example, Sort sort) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public <S extends RentalOrder> Page<S> findAll(Example<S> example, Pageable pageable) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public <S extends RentalOrder> long count(Example<S> example) {
-        return 0;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public <S extends RentalOrder> boolean exists(Example<S> example) {
-        return false;
+        throw new UnsupportedOperationException();
     }
 }

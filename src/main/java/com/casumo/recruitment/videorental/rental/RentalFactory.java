@@ -4,6 +4,7 @@ import com.casumo.recruitment.videorental.customer.Customer;
 import com.casumo.recruitment.videorental.film.FilmType;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,6 +16,8 @@ public class RentalFactory {
                 .filmType(filmType)
                 .rentalStatus(RentalStatus.STARTED)
                 .customer(customer)
+                .price(BigDecimal.ZERO)
+                .surcharge(BigDecimal.ZERO)
                 .rentDate(rentDate)
                 .expectedReturnDate(expectedReturnDate)
                 .build();

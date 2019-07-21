@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.math.BigDecimal;
 
 @Data
 @Builder
@@ -16,9 +17,14 @@ import javax.persistence.Id;
 @Entity
 public class Film {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
     private String barCode;
     private String title;
     private FilmType type;
+
+    public BigDecimal checkPrice(Integer numberOfDays) {
+        return type.calculatePrice(numberOfDays);
+    }
 }

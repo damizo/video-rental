@@ -10,8 +10,10 @@ import com.casumo.recruitment.videorental.rental.RentalRepository;
 import com.casumo.recruitment.videorental.shared.CurrencyType;
 import com.casumo.recruitment.videorental.shared.domain.PersonalData;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+@Profile(Profiles.TEST)
 @Component
 @AllArgsConstructor
 public class DataContainer {

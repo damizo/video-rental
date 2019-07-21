@@ -1,6 +1,6 @@
 package com.casumo.recruitment.videorental.rental;
 
-import com.casumo.recruitment.videorental.infrastructure.Error;
+import com.casumo.recruitment.videorental.infrastructure.exception.Error;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;

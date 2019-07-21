@@ -22,31 +22,37 @@ Why I decide on such move:
 - Spock
 - Swagger
 
-### Technical approaches assumptions
+### Technical approaches
 
 - Behaviour Driven Development
-- Package granulation
-- Rich Domain Model
+- Rich Domain Model and package granulation oriented on domain (borrowed from DDD)
+
+*conscious lack of authentication for simplificity
 
 ### Setup
 
-mvn clean install 
-mvn spring-boot:run
+mvn clean install -Ptest
+mvn spring-boot:run -Dspring.profiles.active=test
+
+## Profiles
+<b>test</b>
+ - run integration and acceptance tests during build
+ - initialize few films and customer in database
 
 ### REST API
 <b>http://localhost:8080/swagger-ui.html</b>
 
 Whole rental process is based on temporary <b>RentalBox</b> which lasts with http session.
 Steps placed chronological:
+
 - Add film with declared number of days to rental box 
-- Get details of rental box
-- Remove film from rental box
 - Confirm rental
 - Return film
+- Fetch details about rental order
 
-Each film must be returned independently
+Each film must be returned independently from order
 
-Besides that:
+Besides that there is few other endpoints:
 - Get films
 - Get film details
 - Create customer
