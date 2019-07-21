@@ -144,7 +144,7 @@ class CustomerControllerIntegrationSpec extends IntegrationSpec {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(buildJson(personalData)))
 
-        then:
+        then: 'I cannot create such customer'
         createCustomerFailureResultAction
                 .andExpect(status()
                 .is4xxClientError())
