@@ -6,7 +6,7 @@ import com.casumo.recruitment.videorental.configuration.database.DatabaseConfigu
 import com.casumo.recruitment.videorental.customer.CustomerController
 import com.casumo.recruitment.videorental.customer.CustomerDTO
 import com.casumo.recruitment.videorental.infrastructure.IntegrationSpec
-import com.casumo.recruitment.videorental.infrastructure.Profiles
+import com.casumo.recruitment.videorental.infrastructure.config.Profiles
 import com.casumo.recruitment.videorental.shared.CurrencyType
 import com.casumo.recruitment.videorental.shared.dto.PersonalDataDTO
 import com.casumo.recruitment.videorental.shared.time.TimeProvider

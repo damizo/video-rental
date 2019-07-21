@@ -6,7 +6,7 @@ import com.casumo.recruitment.videorental.configuration.film.FilmConfiguration
 import com.casumo.recruitment.videorental.film.FilmController
 import com.casumo.recruitment.videorental.film.FilmDTO
 import com.casumo.recruitment.videorental.infrastructure.IntegrationSpec
-import com.casumo.recruitment.videorental.infrastructure.Profiles
+import com.casumo.recruitment.videorental.infrastructure.config.Profiles
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Profile
 import org.springframework.http.MediaType

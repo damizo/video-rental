@@ -27,7 +27,7 @@ Why I decide on such move:
 - Behaviour Driven Development
 - Rich Domain Model and package granulation oriented on domain (borrowed from DDD)
 
-for simplificity conscious lack of authentication with authentication 
+*for simplificity conscious lack of authentication with authentication 
 
 ### Setup
 
@@ -37,12 +37,12 @@ mvn spring-boot:run -Dspring.profiles.active=test
 ## Profiles
 <b>test</b>
  - run integration and acceptance tests during build
- - initialize few films and customer in database
+ - initialize inventory with few films and customer in database
 
 ### REST API
 <b>http://localhost:8080/swagger-ui.html</b>
 
-Whole rental process is based on temporary <b>RentalBox</b> which lasts with http session.
+Whole rental process is based on temporary <b>RentalBox</b> which lasts among client http session.
 Find description below how to reproduce rental process, step by step:
 
 - Add film to rental box 
@@ -62,5 +62,22 @@ Besides that API offers few other endpoints:
 Examples of usage are placed in <b>examples</b> folder
 
 REST API is intentionally:
-- without authentication/authorization
+- without authentication/authorization 
 - without pagination
+
+#### Why...
+
+Is there HttpSession param in few endpoints?
+
+<b> I wanted to bound temporary rental box with client http session, as it works in online shops with carts. 
+Box has no business value, that's why I don't save it database. It becomes important business value when client 
+confirms his rental draft.</b>
+
+Is there 'customerId' param required in <b>POST @ /api/rental</b>, someone might pass id of any client in database
+
+<b> Yes, I wanted to simplify it. Authentication would resolve it, because I would get customerId from customer which
+ is currently logged in.
+Additionally, with authentication some endpoints (e.g. create new customer, add new film) should be strictly protected 
+with corresponding permissions</b>
+
+

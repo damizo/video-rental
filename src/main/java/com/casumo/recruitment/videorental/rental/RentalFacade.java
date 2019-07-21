@@ -49,7 +49,7 @@ public class RentalFacade {
         return rentalRepository.findById(id)
                 .map(rental -> rental.returnFilm(timeProvider.today()))
                 .map(rental -> rentalMapper.toDTO(rental))
-                .orElseThrow(() -> new ReturnFilmException(Collections
+                .orElseThrow(() -> new RentalNotFoundException(Collections
                         .singletonMap("id", String.valueOf(id))));
     }
 

@@ -6,7 +6,7 @@ import com.casumo.recruitment.videorental.configuration.rental.InMemoryRentalOrd
 import com.casumo.recruitment.videorental.configuration.rental.InMemoryRentalRepository;
 import com.casumo.recruitment.videorental.customer.CustomerRepository;
 import com.casumo.recruitment.videorental.film.FilmRepository;
-import com.casumo.recruitment.videorental.infrastructure.DataContainer;
+import com.casumo.recruitment.videorental.infrastructure.database.DataContainer;
 import com.casumo.recruitment.videorental.rental.RentalOrderRepository;
 import com.casumo.recruitment.videorental.rental.RentalRepository;
 import org.springframework.context.annotation.Bean;

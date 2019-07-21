@@ -1,6 +1,7 @@
 package com.casumo.recruitment.videorental.rental;
 
 import com.casumo.recruitment.videorental.infrastructure.exception.ErrorDTO;
+import com.casumo.recruitment.videorental.infrastructure.utils.SwaggerMessages;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -8,56 +9,57 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpSession;
 
 public interface RentalSwaggerDocumentation {
 
-    @ApiOperation(value = "Add film to temporary rental box", response = RentalOrderDraftDTO.class)
+    @ApiOperation(value = SwaggerMessages.Rental.ADD_FILM_TO_RENTAL_BOX, response = RentalOrderDraftDTO.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully added film to box", response = RentalOrderDraftDTO.class),
-            @ApiResponse(code = 417, message = "Business error occured", response = ErrorDTO.class),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+            @ApiResponse(code = 200, message = SwaggerMessages.Rental.ADD_FILM_TO_RENTAL_BOX_SUCCESS, response = RentalOrderDraftDTO.class),
+            @ApiResponse(code = 417, message = SwaggerMessages.BUSSINESS_ERROR, response = ErrorDTO.class),
+            @ApiResponse(code = 404, message = SwaggerMessages.RESOURCE_NOT_FOUND)
     })
-    RentalOrderDraftDTO addToRentalBox(@ApiParam(hidden = true) HttpSession httpSession, @RequestBody RentFilmEntryDTO rentFilmEntry);
+    RentalOrderDraftDTO addToRentalBox(@ApiIgnore HttpSession httpSession, @RequestBody RentFilmEntryDTO rentFilmEntry);
 
-    @ApiOperation(value = "Remove film from temporary rental box")
+    @ApiOperation(value = SwaggerMessages.Rental.REMOVE_FILM_FROM_RENTAL_BOX)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully removed film from rental box", response = RentalOrderDraftDTO.class),
-            @ApiResponse(code = 417, message = "Business error occured", response = ErrorDTO.class),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+            @ApiResponse(code = 200, message = SwaggerMessages.Rental.REMOVE_FILM_FROM_RENTAL_BOX_SUCCESS, response = RentalOrderDraftDTO.class),
+            @ApiResponse(code = 417, message = SwaggerMessages.BUSSINESS_ERROR, response = ErrorDTO.class),
+            @ApiResponse(code = 404, message = SwaggerMessages.RESOURCE_NOT_FOUND)
     })
-    void removeFromRentalBox(HttpSession httpSession, @RequestParam Long filmId);
+    void removeFromRentalBox(@ApiIgnore HttpSession httpSession, @RequestParam Long filmId);
 
-    @ApiOperation(value = "Get details about current rental box", response = RentalOrderDraftDTO.class)
+    @ApiOperation(value = SwaggerMessages.Rental.GET_DETAILS_ABOUT_RENTAL_BOX, response = RentalOrderDraftDTO.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully fetched rental box details", response = RentalOrderDraftDTO.class),
-            @ApiResponse(code = 417, message = "Business error occured", response = ErrorDTO.class),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+            @ApiResponse(code = 200, message = SwaggerMessages.Rental.GET_DETAILS_ABOUT_RENTAL_BOX_SUCCESS, response = RentalOrderDraftDTO.class),
+            @ApiResponse(code = 417, message = SwaggerMessages.BUSSINESS_ERROR, response = ErrorDTO.class),
+            @ApiResponse(code = 404, message = SwaggerMessages.RESOURCE_NOT_FOUND)
     })
-    RentalOrderDraftDTO getCurrentBoxDetails(@ApiParam(hidden = true) HttpSession httpSession);
+    RentalOrderDraftDTO getCurrentBoxDetails(@ApiIgnore HttpSession httpSession);
 
-    @ApiOperation(value = "Rent films from your rental box", response = RentalOrderDTO.class)
+    @ApiOperation(value = SwaggerMessages.Rental.COMPLETE_RENTAL_ORDER, response = RentalOrderDTO.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully completed rental order", response = RentalOrderDTO.class),
-            @ApiResponse(code = 417, message = "Business error occured", response = ErrorDTO.class),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+            @ApiResponse(code = 200, message = SwaggerMessages.Rental.COMPLETE_RENTAL_ORDER_SUCCESS, response = RentalOrderDTO.class),
+            @ApiResponse(code = 417, message = SwaggerMessages.BUSSINESS_ERROR, response = ErrorDTO.class),
+            @ApiResponse(code = 404, message = SwaggerMessages.RESOURCE_NOT_FOUND)
     })
-    RentalOrderDTO rent(@RequestParam Long customerId, @ApiParam(hidden = true) HttpSession httpSession);
+    RentalOrderDTO rent(@RequestParam Long customerId, @ApiIgnore HttpSession httpSession);
 
-    @ApiOperation(value = "Get details about rental order", response = RentalOrderDTO.class)
+    @ApiOperation(value = SwaggerMessages.Rental.GET_DETAILS_ABOUT_RENTAL_ORDER, response = RentalOrderDTO.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully fetched rental order details", response = RentalOrderDTO.class),
-            @ApiResponse(code = 417, message = "Business error occured", response = ErrorDTO.class),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+            @ApiResponse(code = 200, message = SwaggerMessages.Rental.GET_DETAILS_ABOUT_RENTAL_ORDER_SUCCESS, response = RentalOrderDTO.class),
+            @ApiResponse(code = 417, message = SwaggerMessages.BUSSINESS_ERROR, response = ErrorDTO.class),
+            @ApiResponse(code = 404, message = SwaggerMessages.RESOURCE_NOT_FOUND)
     })
     RentalOrderDTO getDetails(@PathVariable Long rentalOrderId);
 
-    @ApiOperation(value = "Return film to inventory", response = RentalDTO.class)
+    @ApiOperation(value = SwaggerMessages.Rental.RETURN_FILM, response = RentalDTO.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully returned film to inventory", response = RentalDTO.class),
-            @ApiResponse(code = 417, message = "Business error occured", response = ErrorDTO.class),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+            @ApiResponse(code = 200, message = SwaggerMessages.Rental.RETURN_FILM_SUCCESS, response = RentalDTO.class),
+            @ApiResponse(code = 417, message = SwaggerMessages.BUSSINESS_ERROR, response = ErrorDTO.class),
+            @ApiResponse(code = 404, message = SwaggerMessages.RESOURCE_NOT_FOUND)
     })
     RentalDTO returnFilm(@RequestParam Long rentalId);
 }

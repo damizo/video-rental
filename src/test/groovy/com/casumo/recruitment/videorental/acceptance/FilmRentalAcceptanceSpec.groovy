@@ -9,7 +9,7 @@ import com.casumo.recruitment.videorental.customer.CustomerController
 import com.casumo.recruitment.videorental.customer.CustomerRepository
 import com.casumo.recruitment.videorental.film.FilmType
 import com.casumo.recruitment.videorental.infrastructure.IntegrationSpec
-import com.casumo.recruitment.videorental.infrastructure.Profiles
+import com.casumo.recruitment.videorental.infrastructure.config.Profiles
 import com.casumo.recruitment.videorental.rental.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest

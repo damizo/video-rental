@@ -7,7 +7,7 @@ import com.casumo.recruitment.videorental.film.Film;
 import com.casumo.recruitment.videorental.film.FilmDTO;
 import com.casumo.recruitment.videorental.film.FilmRepository;
 import com.casumo.recruitment.videorental.film.FilmType;
-import com.casumo.recruitment.videorental.infrastructure.DataContainer;
+import com.casumo.recruitment.videorental.infrastructure.database.DataContainer;
 import com.casumo.recruitment.videorental.rental.RentFilmEntryDTO;
 import com.casumo.recruitment.videorental.rental.RentalOrderRepository;
 import com.casumo.recruitment.videorental.rental.RentalRepository;

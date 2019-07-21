@@ -1,10 +1,11 @@
-package com.casumo.recruitment.videorental.infrastructure;
+package com.casumo.recruitment.videorental.infrastructure.database;
 
 import com.casumo.recruitment.videorental.customer.Customer;
 import com.casumo.recruitment.videorental.customer.CustomerRepository;
 import com.casumo.recruitment.videorental.film.Film;
 import com.casumo.recruitment.videorental.film.FilmRepository;
 import com.casumo.recruitment.videorental.film.FilmType;
+import com.casumo.recruitment.videorental.infrastructure.config.Profiles;
 import com.casumo.recruitment.videorental.rental.RentalOrderRepository;
 import com.casumo.recruitment.videorental.rental.RentalRepository;
 import com.casumo.recruitment.videorental.shared.CurrencyType;

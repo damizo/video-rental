@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Data
 @AllArgsConstructor
-public class ReturnFilmException extends RuntimeException {
+public class FilmAlreadyReturnedException extends RuntimeException {
 
     private Map<String, String> params;
 }

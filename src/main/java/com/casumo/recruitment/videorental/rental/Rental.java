@@ -11,6 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Optional;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -56,6 +57,10 @@ public class Rental {
     }
 
     public Rental returnFilm(LocalDate returnDate) {
+        if (isReturned()) {
+            throw new FilmAlreadyReturnedException(Collections.singletonMap("rentalId", String.valueOf(id)));
+        }
+
         this.actualReturnDate = returnDate;
         this.rentalStatus = RentalStatus.END;
         this.surcharge = calculateSurcharge();

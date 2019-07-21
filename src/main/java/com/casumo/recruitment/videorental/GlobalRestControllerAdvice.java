@@ -100,6 +100,15 @@ public class GlobalRestControllerAdvice extends ResponseEntityExceptionHandler {
                 .build();
     }
 
+    @ExceptionHandler(FilmAlreadyReturnedException.class)
+    @ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
+    public ErrorDTO handleFilmAlreadyReturnedException(FilmAlreadyReturnedException e) {
+        return ErrorDTO.builder()
+                .message("Film already returned")
+                .params(Collections.unmodifiableMap(e.getParams()))
+                .build();
+    }
+
     @ExceptionHandler(FilmTypeNotFoundException.class)
     @ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
     public ErrorDTO handleFilmTypeNotFoundException(FilmTypeNotFoundException e) {

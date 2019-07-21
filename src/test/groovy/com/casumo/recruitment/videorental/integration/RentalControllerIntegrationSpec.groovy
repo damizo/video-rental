@@ -5,7 +5,7 @@ import com.casumo.recruitment.videorental.configuration.rental.RentalConfigurati
 import com.casumo.recruitment.videorental.customer.CustomerController
 import com.casumo.recruitment.videorental.customer.CustomerRepository
 import com.casumo.recruitment.videorental.infrastructure.IntegrationSpec
-import com.casumo.recruitment.videorental.infrastructure.Profiles
+import com.casumo.recruitment.videorental.infrastructure.config.Profiles
 import com.casumo.recruitment.videorental.rental.RentFilmEntryDTO
 import com.casumo.recruitment.videorental.rental.RentalController
 import com.casumo.recruitment.videorental.rental.RentalOrderDraftDTO

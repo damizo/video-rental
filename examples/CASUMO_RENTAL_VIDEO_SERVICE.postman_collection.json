@@ -17,7 +17,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"filmId\":10,\n\t\"numberOfDays\": 10\n}"
+					"raw": "{\n\t\"filmId\":3,\n\t\"numberOfDays\": 10\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/api/rentals/box",
@@ -69,7 +69,7 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://localhost:8080/api/rentals/returns?rentalId=7",
+					"raw": "http://localhost:8080/api/rentals/returns?rentalId=6",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -83,7 +83,7 @@
 					"query": [
 						{
 							"key": "rentalId",
-							"value": "7"
+							"value": "6"
 						}
 					]
 				}
@@ -108,7 +108,7 @@
 				],
 				"body": {},
 				"url": {
-					"raw": "http://localhost:8080/api/rentals/7",
+					"raw": "http://localhost:8080/api/rentals/6",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -117,7 +117,7 @@
 					"path": [
 						"api",
 						"rentals",
-						"7"
+						"6"
 					]
 				}
 			},

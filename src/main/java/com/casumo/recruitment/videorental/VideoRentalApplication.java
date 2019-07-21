@@ -1,7 +1,7 @@
 package com.casumo.recruitment.videorental;
 
-import com.casumo.recruitment.videorental.infrastructure.DataContainer;
-import com.casumo.recruitment.videorental.infrastructure.Profiles;
+import com.casumo.recruitment.videorental.infrastructure.database.DataContainer;
+import com.casumo.recruitment.videorental.infrastructure.config.Profiles;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
