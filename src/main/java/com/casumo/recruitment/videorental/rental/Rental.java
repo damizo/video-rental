@@ -6,6 +6,7 @@ import com.casumo.recruitment.videorental.shared.CurrencyType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 public class Rental {
@@ -37,9 +39,6 @@ public class Rental {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate actualReturnDate;
-
-    @Enumerated(EnumType.STRING)
-    private CurrencyType currency = CurrencyType.SEK;
 
     @Enumerated(EnumType.STRING)
     private FilmType filmType;

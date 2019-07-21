@@ -19,11 +19,13 @@
         <java.version>1.8</java.version>
         <gmaven-plugin.version>1.4</gmaven-plugin.version>
         <groovy.version>2.4.12</groovy.version>
-        <spock.version>1.1-groovy-2.4</spock.version>
+        <spock.version>${spock-spring.version}</spock.version>
         <slf4j.version>1.7.25</slf4j.version>
         <lombok.version>1.16.20</lombok.version>
         <apache.commons.lang.version>3.7</apache.commons.lang.version>
         <cglib.version>2.2</cglib.version>
+        <spock-spring.version>1.1-groovy-2.4</spock-spring.version>
+        <swagger.version>2.6.1</swagger.version>
     </properties>
 
     <dependencies>
@@ -38,7 +40,7 @@
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-spring</artifactId>
-            <version>1.1-groovy-2.4</version>
+            <version>${spock-spring.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -49,12 +51,12 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.6.1</version>
+            <version>${swagger.version}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.6.1</version>
+            <version>${swagger.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -111,6 +113,40 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>addTestSources</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.class</include>
+                        <include>**/*Spec.class</include>
+                    </includes>
+                </configuration>
             </plugin>
         </plugins>
     </build>

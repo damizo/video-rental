@@ -1,5 +1,6 @@
 package com.casumo.recruitment.videorental.integration
 
+import com.casumo.recruitment.videorental.film.FilmDTO
 import com.casumo.recruitment.videorental.infrastructure.DataContainer
 import com.casumo.recruitment.videorental.IntegrationSpec
 import com.casumo.recruitment.videorental.configuration.TimeConfiguration
@@ -52,7 +53,7 @@ class FilmControllerIntegrationSpec extends IntegrationSpec {
                 .contentType(MediaType.APPLICATION_JSON))
 
         then: 'I get whole catalogue of films'
-        List<Film> listOfFilms = Arrays.asList(
+        List<FilmDTO> listOfFilms = Arrays.asList(
                 dataContainer.matrix(),
                 dataContainer.spiderMan(),
                 dataContainer.spiderManBetterOne(),
@@ -68,7 +69,7 @@ class FilmControllerIntegrationSpec extends IntegrationSpec {
         when: 'I ask about Matrix details'
         def matrix = dataContainer.matrix()
         ResultActions getFilmsResultAction = this.mockMvc
-                .perform(get('/api/films/{id}', matrix.id)
+                .perform(get('/api/films/{id}', 4L)
                 .contentType(MediaType.APPLICATION_JSON))
 
         then: 'I get details about Matrix'

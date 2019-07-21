@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Transactional
@@ -14,13 +15,18 @@ import java.util.List;
 public class FilmFacade {
 
     private final FilmRepository filmRepository;
+    private final FilmMapper filmMapper;
 
-    public List<Film> getFilms() {
-        return filmRepository.findAll();
+    public List<FilmDTO> getFilms() {
+        return filmRepository.findAll()
+                .stream()
+                .map(filmMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
-    public Film getFilm(Long filmId) {
+    public FilmDTO getFilm(Long filmId) {
         return filmRepository.findById(filmId)
+                .map(filmMapper::toDTO)
                 .orElseThrow(() -> new FilmNotFoundException(Collections.singletonMap("id", filmId.toString())));
     }
 

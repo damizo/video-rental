@@ -12,12 +12,12 @@ public class CustomerController implements CustomerSwaggerDocumentation {
     private final CustomerFacade customerFacade;
 
     @GetMapping(value = "/{customerId}")
-    public Customer getCustomer(@PathVariable Long customerId) {
+    public CustomerDTO getCustomer(@PathVariable Long customerId) {
         return customerFacade.getCustomer(customerId);
     }
 
     @PostMapping
-    public Customer create(@RequestBody PersonalData personalData) {
+    public CustomerDTO create(@RequestBody PersonalData personalData) {
         return customerFacade.createCustomer(personalData);
     }
 }

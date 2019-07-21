@@ -16,12 +16,12 @@ public class FilmController implements FilmSwaggerDocumentation {
     private final FilmFacade filmFacade;
 
     @GetMapping
-    public List<Film> getFilms() {
+    public List<FilmDTO> getFilms() {
         return filmFacade.getFilms();
     }
 
     @GetMapping("/{filmId}")
-    public Film getFilm(@PathVariable Long filmId) {
+    public FilmDTO getFilm(@PathVariable Long filmId) {
         return filmFacade.getFilm(filmId);
     }
 

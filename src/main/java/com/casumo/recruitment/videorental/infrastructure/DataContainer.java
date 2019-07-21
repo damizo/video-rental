@@ -5,7 +5,7 @@ import com.casumo.recruitment.videorental.customer.CustomerRepository;
 import com.casumo.recruitment.videorental.film.Film;
 import com.casumo.recruitment.videorental.film.FilmRepository;
 import com.casumo.recruitment.videorental.film.FilmType;
-import com.casumo.recruitment.videorental.rental.RentFilmEntry;
+import com.casumo.recruitment.videorental.rental.RentFilmEntryDTO;
 import com.casumo.recruitment.videorental.rental.RentalOrderRepository;
 import com.casumo.recruitment.videorental.rental.RentalRepository;
 import com.casumo.recruitment.videorental.shared.domain.PersonalData;
@@ -85,16 +85,16 @@ public class DataContainer {
                 .build();
     }
 
-    public RentFilmEntry matrixEntry(Integer days) {
-        return new RentFilmEntry(Identifiers.ONE, days, BigDecimal.ZERO);
+    public RentFilmEntryDTO matrixEntry(Integer days) {
+        return new RentFilmEntryDTO(Identifiers.ONE, days, BigDecimal.ZERO);
     }
 
-    public RentFilmEntry spiderManEntry(Integer days) {
-        return new RentFilmEntry(Identifiers.TWO, days, BigDecimal.ZERO);
+    public RentFilmEntryDTO spiderManEntry(Integer days) {
+        return new RentFilmEntryDTO(Identifiers.TWO, days, BigDecimal.ZERO);
     }
 
-    public RentFilmEntry outOfAfricaEntry(Integer days) {
-        return new RentFilmEntry(Identifiers.FOUR, days, BigDecimal.ZERO);
+    public RentFilmEntryDTO outOfAfricaEntry(Integer days) {
+        return new RentFilmEntryDTO(Identifiers.FOUR, days, BigDecimal.ZERO);
     }
 
     private static final class Identifiers {

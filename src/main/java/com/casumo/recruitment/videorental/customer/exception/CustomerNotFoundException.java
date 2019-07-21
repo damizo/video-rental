@@ -1,4 +1,4 @@
-package com.casumo.recruitment.videorental.film;
+package com.casumo.recruitment.videorental.customer.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +8,8 @@ import java.util.Map;
 
 @Data
 @AllArgsConstructor
-public class PriceNotAvailableException extends RuntimeException {
+public class CustomerNotFoundException extends RuntimeException {
+
     private Map<String, String> params = new HashMap<>();
 
 }

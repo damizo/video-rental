@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @Builder(toBuilder = true)
 public class RentalDTO {
 
+    private Long id;
     private Long customerId;
     private LocalDate rentDate;
     private LocalDate expectedReturnDate;

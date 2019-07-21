@@ -7,7 +7,6 @@ import com.casumo.recruitment.videorental.configuration.database.DatabaseConfigu
 import com.casumo.recruitment.videorental.configuration.rental.RentalConfiguration
 import com.casumo.recruitment.videorental.customer.Customer
 import com.casumo.recruitment.videorental.customer.CustomerController
-import com.casumo.recruitment.videorental.customer.CustomerDTO
 import com.casumo.recruitment.videorental.customer.CustomerRepository
 import com.casumo.recruitment.videorental.film.FilmType
 import com.casumo.recruitment.videorental.infrastructure.DataContainer
@@ -76,7 +75,7 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
         setup:
         Customer customer = dataContainer.customer()
         Long customerId = 1L
-        RentFilmEntry matrixFilm = dataContainer.matrixEntry(1)
+        RentFilmEntryDTO matrixFilm = dataContainer.matrixEntry(1)
 
         when: 'I add Matrix to rental box'
         ResultActions resultAction = this.mockMvc
@@ -87,12 +86,12 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
 
         then: 'I get rental details with 40 SEK total price'
         httpSession.getId() >> "1"
-        RentFilmEntry rentFilmEntryWithPrice = matrixFilm.toBuilder()
+        RentFilmEntryDTO rentFilmEntryWithPrice = matrixFilm.toBuilder()
                 .price(BigDecimal.valueOf(40))
                 .numberOfDays(1)
                 .build()
 
-        RentalOrderDraft rentalOrderDraft = RentalOrderDraft.builder()
+        RentOrderDraftDTO rentalOrderDraft = RentOrderDraftDTO.builder()
                 .films(Arrays.asList(rentFilmEntryWithPrice))
                 .totalPrice(BigDecimal.valueOf(40))
                 .build()
@@ -109,11 +108,13 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
 
         then: 'I have to pay 40 SEK for order'
         Long rentalOrderId = 1L
+        Long firstRentalId = 1L
 
         BigDecimal expectedTotalPrice = BigDecimal.valueOf(40)
         BigDecimal expectedRentalPrice = expectedTotalPrice
 
-        RentalDTO expectedRentalDTO = RentalDTO.builder()
+        RentalDTO expectedRental = RentalDTO.builder()
+                .id(firstRentalId)
                 .customerId(customerId)
                 .filmType(FilmType.NEW_RELEASE.name())
                 .status(RentalStatus.STARTED.name())
@@ -123,16 +124,16 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
                 .rentDate(todayPlus(0))
                 .build()
 
-        RentalOrderDTO expectedRentalOrderDTO = RentalOrderDTO.builder()
+        RentOrderDTO expectedRentalOrder = RentOrderDTO.builder()
                 .id(rentalOrderId)
                 .totalPrice(expectedTotalPrice)
                 .totalSurcharge(BigDecimal.ZERO)
-                .rentals(Arrays.asList(expectedRentalDTO))
+                .rentals(Arrays.asList(expectedRental))
                 .build()
 
         completeRentResultAction
                 .andExpect(status().isOk())
-                .andExpect(content().json(buildJson(expectedRentalOrderDTO)))
+                .andExpect(content().json(buildJson(expectedRentalOrder)))
 
         and: 'I have added 2 bonus point'
         customer.increaseBonusPoints(2)
@@ -150,7 +151,7 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
 
         BigDecimal expectedSurcharge = BigDecimal.valueOf(80)
 
-        RentalDTO expectedRentalWithIncreasedSurcharge = expectedRentalDTO.toBuilder()
+        RentalDTO expectedRentalWithIncreasedSurcharge = expectedRental.toBuilder()
                 .surcharge(expectedSurcharge)
                 .status(RentalStatus.END.name())
                 .actualReturnDate(todayPlus(3))
@@ -166,7 +167,7 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
         Customer customer = dataContainer.customer()
         Long customerId = 1L
         Integer spiderManRentalDays = 5
-        RentFilmEntry spiderManFilm = dataContainer.spiderManEntry(spiderManRentalDays)
+        RentFilmEntryDTO spiderManFilm = dataContainer.spiderManEntry(spiderManRentalDays)
 
         when: 'I add Spider Man to rental box'
         ResultActions spiderManAddedToBoxResultAction = this.mockMvc
@@ -180,12 +181,12 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
 
         BigDecimal expectedRentalPriceOfSpiderMan = BigDecimal.valueOf(90)
 
-        RentFilmEntry spiderManWithPrice = spiderManFilm.toBuilder()
+        RentFilmEntryDTO spiderManWithPrice = spiderManFilm.toBuilder()
                 .price(expectedRentalPriceOfSpiderMan)
                 .numberOfDays(spiderManRentalDays)
                 .build()
 
-        RentalOrderDraft rentalOrderDraft = RentalOrderDraft.builder()
+        RentOrderDraftDTO rentalOrderDraft = RentOrderDraftDTO.builder()
                 .films(Arrays.asList(spiderManWithPrice))
                 .totalPrice(expectedRentalPriceOfSpiderMan)
                 .build()
@@ -196,7 +197,7 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
 
         when: 'I add Out of Africa to rental box'
         Integer outOfAfricaRentalDays = 7
-        RentFilmEntry outOfAfricaFilm = dataContainer.outOfAfricaEntry(outOfAfricaRentalDays)
+        RentFilmEntryDTO outOfAfricaFilm = dataContainer.outOfAfricaEntry(outOfAfricaRentalDays)
 
         ResultActions outOfAfricaAddedToBoxResultAction = this.mockMvc
                 .perform(post('/api/rental/box')
@@ -210,13 +211,13 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
         BigDecimal outOfAfricaRentalPrice = BigDecimal.valueOf(90)
         BigDecimal totalPriceOfRental = BigDecimal.valueOf(180)
 
-        RentFilmEntry outOfAfricaWithPrice = outOfAfricaFilm.toBuilder()
+        RentFilmEntryDTO outOfAfricaWithPrice = outOfAfricaFilm.toBuilder()
                 .price(outOfAfricaRentalPrice)
                 .numberOfDays(outOfAfricaRentalDays)
                 .build()
 
 
-        RentalOrderDraft finalRentalOrderDraft = RentalOrderDraft.builder()
+        RentOrderDraftDTO finalRentalOrderDraft = RentOrderDraftDTO.builder()
                 .films(Arrays.asList(spiderManWithPrice, outOfAfricaWithPrice))
                 .totalPrice(totalPriceOfRental)
                 .build()
@@ -234,9 +235,12 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
 
         then: 'I have to pay 180 SEK for order'
         Long rentalOrderId = 1L
+        Long firstRentalId = 1L
+        Long secondRentalId = 2L
         BigDecimal expectedTotalPrice = BigDecimal.valueOf(180)
 
-        RentalDTO spiderManRentalDTO = RentalDTO.builder()
+        RentalDTO spiderManRental = RentalDTO.builder()
+                .id(firstRentalId)
                 .customerId(customerId)
                 .filmType(FilmType.REGULAR.name())
                 .status(RentalStatus.STARTED.name())
@@ -246,7 +250,8 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
                 .rentDate(todayPlus(0))
                 .build()
 
-        RentalDTO outOfAfricaRentalDTO = RentalDTO.builder()
+        RentalDTO outOfAfricaRental = RentalDTO.builder()
+                .id(secondRentalId)
                 .customerId(customerId)
                 .filmType(FilmType.OLD.name())
                 .status(RentalStatus.STARTED.name())
@@ -256,16 +261,16 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
                 .rentDate(todayPlus(0))
                 .build()
 
-        RentalOrderDTO expectedRentalOrderDTO = RentalOrderDTO.builder()
+        RentOrderDTO expectedRentalOrder = RentOrderDTO.builder()
                 .id(rentalOrderId)
                 .totalPrice(expectedTotalPrice)
                 .totalSurcharge(BigDecimal.ZERO)
-                .rentals(Arrays.asList(spiderManRentalDTO, outOfAfricaRentalDTO))
+                .rentals(Arrays.asList(spiderManRental, outOfAfricaRental))
                 .build()
 
         completeRentResultAction
                 .andExpect(status().isOk())
-                .andExpect(content().json(buildJson(expectedRentalOrderDTO)))
+                .andExpect(content().json(buildJson(expectedRentalOrder)))
 
         and: 'I have added 2 bonus points'
         customer.increaseBonusPoints(2)
@@ -284,7 +289,7 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
 
         BigDecimal expectedSurcharge = BigDecimal.valueOf(120)
 
-        RentalDTO spiderManRentalAfterReturn = spiderManRentalDTO.toBuilder()
+        RentalDTO spiderManRentalAfterReturn = spiderManRental.toBuilder()
                 .surcharge(expectedSurcharge)
                 .status(RentalStatus.END.name())
                 .actualReturnDate(todayPlus(9))
@@ -305,7 +310,7 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
 
         BigDecimal outOfAfricaSurcharge = BigDecimal.valueOf(60)
 
-        RentalDTO outOfAfricaAfterReturn = outOfAfricaRentalDTO.toBuilder()
+        RentalDTO outOfAfricaAfterReturn = outOfAfricaRental.toBuilder()
                 .surcharge(outOfAfricaSurcharge)
                 .status(RentalStatus.END.name())
                 .actualReturnDate(todayPlus(9))
@@ -317,7 +322,7 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
 
         when: 'I get details about rental order'
         BigDecimal finalSurcharge = BigDecimal.valueOf(180)
-        expectedRentalOrderDTO = expectedRentalOrderDTO.toBuilder()
+        expectedRentalOrder = expectedRentalOrder.toBuilder()
                 .rentals(Arrays.asList(outOfAfricaAfterReturn, spiderManRentalAfterReturn))
                 .totalSurcharge(finalSurcharge)
                 .build()
@@ -328,7 +333,7 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
         then: 'Final surcharge is 180 SEK'
         getRentalOrderDetailsResultAction
                 .andExpect(status().isOk())
-                .andExpect(content().json(buildJson(expectedRentalOrderDTO)))
+                .andExpect(content().json(buildJson(expectedRentalOrder)))
     }
 
 
@@ -337,7 +342,7 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
         Customer customer = dataContainer.customer()
         Long customerId = 1L
         Integer numberOfRentalDays = 1
-        RentFilmEntry spiderManFilm = dataContainer.spiderManEntry(numberOfRentalDays)
+        RentFilmEntryDTO spiderManFilm = dataContainer.spiderManEntry(numberOfRentalDays)
 
         when: 'I add Spider Man to rental box'
         ResultActions resultAction = this.mockMvc
@@ -351,12 +356,12 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
 
         BigDecimal spiderManPrice = BigDecimal.valueOf(30)
 
-        RentFilmEntry rentFilmEntryWithPrice = spiderManFilm.toBuilder()
+        RentFilmEntryDTO rentFilmEntryWithPrice = spiderManFilm.toBuilder()
                 .price(spiderManPrice)
                 .numberOfDays(numberOfRentalDays)
                 .build()
 
-        RentalOrderDraft rentalOrderDraft = RentalOrderDraft.builder()
+        RentOrderDraftDTO rentalOrderDraft = RentOrderDraftDTO.builder()
                 .films(Arrays.asList(rentFilmEntryWithPrice))
                 .totalPrice(spiderManPrice)
                 .build()
@@ -381,9 +386,11 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
 
         then: 'I have to pay 30 SEK for order'
         Long rentalOrderId = 1L
+        Long firstRentalId = 1L
         BigDecimal expectedTotalPrice = BigDecimal.valueOf(spiderManPrice)
 
-        RentalDTO spiderManRentalDTO = RentalDTO.builder()
+        RentalDTO spiderManRental = RentalDTO.builder()
+                .id(firstRentalId)
                 .customerId(customerId)
                 .filmType(FilmType.REGULAR.name())
                 .status(RentalStatus.STARTED.name())
@@ -393,40 +400,40 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
                 .rentDate(todayPlus(0))
                 .build()
 
-        RentalOrderDTO expectedRentalOrderDTO = RentalOrderDTO.builder()
+        RentOrderDTO expectedRentalOrder = RentOrderDTO.builder()
                 .id(rentalOrderId)
                 .totalPrice(expectedTotalPrice)
                 .totalSurcharge(BigDecimal.ZERO)
-                .rentals(Arrays.asList(spiderManRentalDTO))
+                .rentals(Arrays.asList(spiderManRental))
                 .build()
 
         completeRentResultAction
                 .andExpect(status().isOk())
-                .andExpect(content().json(buildJson(expectedRentalOrderDTO)))
+                .andExpect(content().json(buildJson(expectedRentalOrder)))
 
-        when: 'I return Spider Man day before end of relief'
-        Long outOfAfricaRentalId = 1L
-        ResultActions returnOutOfAfrica = this.mockMvc
+        when: 'I return Spider Man day before end of first 3 days of relief'
+        Long spiderManRentalId = 1L
+        ResultActions returnSpiderMan = this.mockMvc
                 .perform(post('/api/rental/return')
-                .param('rentalId', String.valueOf(outOfAfricaRentalId)))
+                .param('rentalId', String.valueOf(spiderManRentalId)))
 
         then: 'Rental of Spider Man has been ended without surcharge'
         timeProvider.today() >> todayPlus(1)
 
-        RentalDTO outOfAfricaAfterReturn = spiderManRentalDTO.toBuilder()
+        RentalDTO spiderManRentalAfterReturn = spiderManRental.toBuilder()
                 .surcharge(BigDecimal.valueOf(0))
                 .status(RentalStatus.END.name())
                 .actualReturnDate(todayPlus(1))
                 .build()
 
-        returnOutOfAfrica
+        returnSpiderMan
                 .andExpect(status().isOk())
-                .andExpect(content().json(buildJson(outOfAfricaAfterReturn)))
+                .andExpect(content().json(buildJson(spiderManRentalAfterReturn)))
 
         when: 'I get details about rental order'
         BigDecimal finalSurcharge = BigDecimal.valueOf(0)
-        expectedRentalOrderDTO = expectedRentalOrderDTO.toBuilder()
-                .rentals(Arrays.asList(outOfAfricaAfterReturn))
+        expectedRentalOrder = expectedRentalOrder.toBuilder()
+                .rentals(Arrays.asList(spiderManRentalAfterReturn))
                 .totalSurcharge(finalSurcharge)
                 .build()
 
@@ -436,7 +443,7 @@ class FilmRentalAcceptanceSpec extends IntegrationSpec {
         then: 'Final surcharge is 0 SEK'
         getRentalOrderDetailsResultAction
                 .andExpect(status().isOk())
-                .andExpect(content().json(buildJson(expectedRentalOrderDTO)))
+                .andExpect(content().json(buildJson(expectedRentalOrder)))
     }
 
     LocalDate todayPlus(Integer days) {

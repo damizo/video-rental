@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class RentFilmEntry {
+public class RentFilmEntryDTO {
     private Long filmId;
     private Integer numberOfDays;
     private BigDecimal price;

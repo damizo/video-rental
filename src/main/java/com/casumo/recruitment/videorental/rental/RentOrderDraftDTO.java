@@ -13,16 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RentalOrderDraft {
-    private List<RentFilmEntry> films = new ArrayList<>();
+public class RentOrderDraftDTO {
+    private List<RentFilmEntryDTO> films = new ArrayList<>();
     private BigDecimal totalPrice = BigDecimal.ZERO;
-
-    public void addEntry(RentFilmEntry entry) {
-        films.add(entry);
-    }
-
-    public void totalPrice(BigDecimal price) {
-        this.totalPrice = this.totalPrice.add(price);
-    }
-
 }

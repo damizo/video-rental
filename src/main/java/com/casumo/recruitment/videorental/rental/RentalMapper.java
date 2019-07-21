@@ -13,6 +13,7 @@ public class RentalMapper {
         Optional<FilmType> maybeFilmType = Optional.ofNullable(rental.getFilmType());
         Optional<RentalStatus> maybeStatus = Optional.ofNullable(rental.getRentalStatus());
         return RentalDTO.builder()
+                .id(rental.getId())
                 .customerId(rental.getCustomer().getId())
                 .actualReturnDate(rental.getActualReturnDate())
                 .expectedReturnDate(rental.getExpectedReturnDate())
@@ -24,8 +25,8 @@ public class RentalMapper {
                 .build();
     }
 
-    public RentalOrderDTO toDTO(RentalOrder rentalOrder) {
-        return RentalOrderDTO.builder()
+    public RentOrderDTO toDTO(RentalOrder rentalOrder) {
+        return RentOrderDTO.builder()
                 .id(rentalOrder.getId())
                 .rentals(rentalOrder.getRentals()
                         .stream()

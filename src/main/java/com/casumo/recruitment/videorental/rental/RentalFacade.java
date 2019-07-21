@@ -30,7 +30,7 @@ public class RentalFacade {
     private RentalMapper rentalMapper;
     private TimeProvider timeProvider;
 
-    public RentalOrderDTO completeOrder(Long customerId, RentalOrderDraft rentalOrderDraft) {
+    public RentOrderDTO completeOrder(Long customerId, RentOrderDraftDTO rentalOrderDraft) {
         List<Rental> rentals = rentalOrderDraft.getFilms()
                 .stream()
                 .map(rentFilmEntry -> rent(customerId, rentFilmEntry.getFilmId(), rentFilmEntry.getNumberOfDays()))
@@ -48,7 +48,7 @@ public class RentalFacade {
                 .orElseThrow(() -> new ReturnFilmException(Collections.singletonMap("id", String.valueOf(id))));
     }
 
-    public RentalOrderDTO find(Long rentalOrderId) {
+    public RentOrderDTO find(Long rentalOrderId) {
         RentalOrder rentalOrder = orderRepository.findById(rentalOrderId)
                 .orElseThrow(() -> new RentalOrderNotFoundException(Collections.singletonMap("id", String.valueOf(rentalOrderId))));
         return rentalMapper.toDTO(rentalOrder);

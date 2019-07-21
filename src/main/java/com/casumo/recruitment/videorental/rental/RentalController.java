@@ -17,7 +17,7 @@ public class RentalController implements RentalSwaggerDocumentation {
     private final RentalBoxStorage rentalBoxStorage;
 
     @PostMapping("/box")
-    public RentalOrderDraft addToRentalBox(HttpSession httpSession, @RequestBody RentFilmEntry rentFilmEntry) {
+    public RentOrderDraftDTO addToRentalBox(HttpSession httpSession, @RequestBody RentFilmEntryDTO rentFilmEntry) {
         String sessionId = httpSession.getId();
 
         if (!rentalBoxStorage.exists(sessionId)) {
@@ -36,22 +36,22 @@ public class RentalController implements RentalSwaggerDocumentation {
     }
 
     @GetMapping("/box")
-    public RentalOrderDraft getCurrentBoxDetails(HttpSession httpSession) {
+    public RentOrderDraftDTO getCurrentBoxDetails(HttpSession httpSession) {
         return rentalBoxStorage.find(httpSession.getId());
     }
 
     @PostMapping("/rent")
-    public RentalOrderDTO rent(@RequestParam Long customerId, HttpSession httpSession) {
+    public RentOrderDTO rent(@RequestParam Long customerId, HttpSession httpSession) {
         String sessionId = httpSession.getId();
-        RentalOrderDraft rentalOrderDraft = rentalBoxStorage.find(sessionId);
-        RentalOrderDTO completedOrder = rentalFacade.completeOrder(customerId, rentalOrderDraft);
+        RentOrderDraftDTO rentalOrderDraft = rentalBoxStorage.find(sessionId);
+        RentOrderDTO completedOrder = rentalFacade.completeOrder(customerId, rentalOrderDraft);
         rentalBoxStorage.clear(sessionId);
         return completedOrder;
 
     }
 
     @GetMapping("/rent/{rentalOrderId}")
-    public RentalOrderDTO getDetails(@PathVariable Long rentalOrderId) {
+    public RentOrderDTO getDetails(@PathVariable Long rentalOrderId) {
         return rentalFacade.find(rentalOrderId);
     }
 
