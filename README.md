@@ -28,7 +28,7 @@ Why I decide on such move:
 - Package granulation
 - Rich Domain Model
 
-##Setup
+### Setup
 
 mvn clean install 
 mvn spring-boot:run
