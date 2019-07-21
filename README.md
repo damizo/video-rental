@@ -27,8 +27,6 @@ Why I decide on such move:
 - Behaviour Driven Development
 - Rich Domain Model and package granulation oriented on domain (borrowed from DDD)
 
-*for simplificity conscious lack of authentication with authentication 
-
 ### Setup
 
 mvn clean install -Ptest
@@ -65,7 +63,7 @@ REST API is intentionally:
 - without authentication/authorization 
 - without pagination
 
-#### Why...
+### Why...
 
 Is there HttpSession param in few endpoints?
 
@@ -75,7 +73,7 @@ confirms his rental draft.</b>
 
 Is there 'customerId' param required in <b>POST @ /api/rental</b>, someone might pass id of any client in database
 
-<b> Yes, I wanted to simplify it. Authentication would resolve it, because I would get customerId from customer which
+<b> I agree, I wanted to simplify it. Authentication would resolve it, because I would get customerId from customer which
  is currently logged in.
 Additionally, with authentication some endpoints (e.g. create new customer, add new film) should be strictly protected 
 with corresponding permissions</b>
