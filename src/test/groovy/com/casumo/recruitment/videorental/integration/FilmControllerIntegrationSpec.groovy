@@ -1,17 +1,15 @@
 package com.casumo.recruitment.videorental.integration
 
-import com.casumo.recruitment.videorental.film.FilmDTO
-import com.casumo.recruitment.videorental.infrastructure.DataContainer
-import com.casumo.recruitment.videorental.IntegrationSpec
-import com.casumo.recruitment.videorental.configuration.TimeConfiguration
 import com.casumo.recruitment.videorental.configuration.database.DatabaseConfiguration
 import com.casumo.recruitment.videorental.configuration.film.FilmConfiguration
 import com.casumo.recruitment.videorental.film.Film
 import com.casumo.recruitment.videorental.film.FilmController
+import com.casumo.recruitment.videorental.film.FilmDTO
+import com.casumo.recruitment.videorental.infrastructure.IntegrationSpec
+import com.casumo.recruitment.videorental.configuration.TimeConfiguration
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -29,11 +27,6 @@ class FilmControllerIntegrationSpec extends IntegrationSpec {
 
     @Autowired
     private FilmController filmController
-
-    @Autowired
-    protected DataContainer dataContainer
-
-    protected MockMvc mockMvc
 
     def setup() {
         this.mockMvc = MockMvcBuilders
@@ -54,10 +47,10 @@ class FilmControllerIntegrationSpec extends IntegrationSpec {
 
         then: 'I get whole catalogue of films'
         List<FilmDTO> listOfFilms = Arrays.asList(
-                dataContainer.matrix(),
-                dataContainer.spiderMan(),
-                dataContainer.spiderManBetterOne(),
-                dataContainer.outOfAfrica()
+                dataContainer.matrixDTO(),
+                dataContainer.spiderManDTO(),
+                dataContainer.spiderManBetterOneDTO(),
+                dataContainer.outOfAfricaDTO()
         )
 
         filmsResponse
@@ -66,15 +59,15 @@ class FilmControllerIntegrationSpec extends IntegrationSpec {
     }
 
     def 'should get films details'() {
-        when: 'I ask about Matrix details'
-        def matrix = dataContainer.matrix()
+        when: 'I ask about Out of Africa details'
+        FilmDTO outOfAfrica = dataContainer.outOfAfricaDTO()
         ResultActions getFilmsResultAction = this.mockMvc
-                .perform(get('/api/films/{id}', 4L)
+                .perform(get('/api/films/{id}', outOfAfrica.getId())
                 .contentType(MediaType.APPLICATION_JSON))
 
         then: 'I get details about Matrix'
         getFilmsResultAction
                 .andExpect(status().isOk())
-                .andExpect(content().json(buildJson(matrix)))
+                .andExpect(content().json(buildJson(outOfAfrica)))
     }
 }

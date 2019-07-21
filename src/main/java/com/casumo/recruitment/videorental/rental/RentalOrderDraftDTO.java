@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RentOrderDraftDTO {
+public class RentalOrderDraftDTO {
     private List<RentFilmEntryDTO> films = new ArrayList<>();
     private BigDecimal totalPrice = BigDecimal.ZERO;
 }

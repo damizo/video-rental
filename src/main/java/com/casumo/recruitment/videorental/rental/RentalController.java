@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping("/api/rental")
+@RequestMapping("/api/rentals")
 @RequiredArgsConstructor
 public class RentalController implements RentalSwaggerDocumentation {
 
@@ -17,7 +17,7 @@ public class RentalController implements RentalSwaggerDocumentation {
     private final RentalBoxStorage rentalBoxStorage;
 
     @PostMapping("/box")
-    public RentOrderDraftDTO addToRentalBox(HttpSession httpSession, @RequestBody RentFilmEntryDTO rentFilmEntry) {
+    public RentalOrderDraftDTO addToRentalBox(HttpSession httpSession, @RequestBody RentFilmEntryDTO rentFilmEntry) {
         String sessionId = httpSession.getId();
 
         if (!rentalBoxStorage.exists(sessionId)) {
@@ -36,26 +36,26 @@ public class RentalController implements RentalSwaggerDocumentation {
     }
 
     @GetMapping("/box")
-    public RentOrderDraftDTO getCurrentBoxDetails(HttpSession httpSession) {
+    public RentalOrderDraftDTO getCurrentBoxDetails(HttpSession httpSession) {
         return rentalBoxStorage.find(httpSession.getId());
     }
 
-    @PostMapping("/rent")
-    public RentOrderDTO rent(@RequestParam Long customerId, HttpSession httpSession) {
+    @PostMapping
+    public RentalOrderDTO rent(@RequestParam Long customerId, HttpSession httpSession) {
         String sessionId = httpSession.getId();
-        RentOrderDraftDTO rentalOrderDraft = rentalBoxStorage.find(sessionId);
-        RentOrderDTO completedOrder = rentalFacade.completeOrder(customerId, rentalOrderDraft);
+        RentalOrderDraftDTO rentalOrderDraft = rentalBoxStorage.find(sessionId);
+        RentalOrderDTO completedOrder = rentalFacade.completeOrder(customerId, rentalOrderDraft);
         rentalBoxStorage.clear(sessionId);
         return completedOrder;
 
     }
 
-    @GetMapping("/rent/{rentalOrderId}")
-    public RentOrderDTO getDetails(@PathVariable Long rentalOrderId) {
+    @GetMapping("/{rentalOrderId}")
+    public RentalOrderDTO getDetails(@PathVariable Long rentalOrderId) {
         return rentalFacade.find(rentalOrderId);
     }
 
-    @PostMapping("/return")
+    @PostMapping("/returns")
     public RentalDTO returnFilm(@RequestParam Long rentalId) {
         return rentalFacade.returnFilm(rentalId);
     }

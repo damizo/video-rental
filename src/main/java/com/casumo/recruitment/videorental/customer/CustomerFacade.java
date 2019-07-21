@@ -1,13 +1,12 @@
 package com.casumo.recruitment.videorental.customer;
 
-import com.casumo.recruitment.videorental.customer.exception.CustomerAlreadyExistsException;
-import com.casumo.recruitment.videorental.customer.exception.CustomerNotFoundException;
-import com.casumo.recruitment.videorental.shared.domain.PersonalData;
+import com.casumo.recruitment.videorental.shared.dto.PersonalDataDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @Component
 @Transactional
@@ -21,15 +20,22 @@ public class CustomerFacade {
     public CustomerDTO getCustomer(Long customerId) {
         return customerRepository.findById(customerId)
                 .map(customerMapper::toDTO)
-                .orElseThrow(() -> new CustomerNotFoundException(Collections.singletonMap("id", String.valueOf(customerId))));
+                .orElseThrow(() -> new CustomerNotFoundException(Collections
+                        .singletonMap("id", String.valueOf(customerId))));
     }
 
-    public CustomerDTO createCustomer(PersonalData personalData) {
-        customerRepository.findByPersonalDataEmail(personalData.getEmail())
-                .ifPresent(customer -> new CustomerAlreadyExistsException(Collections.singletonMap("email", personalData.getEmail())));
+    public CustomerDTO createCustomer(PersonalDataDTO personalData) {
+        Optional<Customer> maybeCustomer = customerRepository.findByPersonalDataEmail(personalData.getEmail());
 
-        Customer customer = customerFactory.create(personalData);
-        Customer newCustomer = customerRepository.save(customer);
-        return customerMapper.toDTO(newCustomer);
+        if (maybeCustomer.isPresent()) {
+            throw new CustomerAlreadyExistsException(Collections.singletonMap("email", personalData.getEmail()));
+        }
+
+        return Optional.ofNullable(customerMapper.toDomain(personalData))
+                .map(customerFactory::create)
+                .map(customerRepository::save)
+                .map(customerMapper::toDTO)
+                .orElseThrow(() -> new CannotCreateCustomerException(Collections
+                        .singletonMap("email", personalData.getEmail())));
     }
 }

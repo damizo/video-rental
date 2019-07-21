@@ -13,50 +13,50 @@ import javax.servlet.http.HttpSession;
 
 public interface RentalSwaggerDocumentation {
 
-    @ApiOperation(value = "Add film to temporary rental box", response = RentOrderDraftDTO.class)
+    @ApiOperation(value = "Add film to temporary rental box", response = RentalOrderDraftDTO.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully added film to box", response = RentOrderDraftDTO.class),
-            @ApiResponse(code = 409, message = "Business error occured", response = Error.class),
+            @ApiResponse(code = 200, message = "Successfully added film to box", response = RentalOrderDraftDTO.class),
+            @ApiResponse(code = 417, message = "Business error occured", response = Error.class),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    RentOrderDraftDTO addToRentalBox(@ApiParam(hidden = true) HttpSession httpSession, @RequestBody RentFilmEntryDTO rentFilmEntry);
+    RentalOrderDraftDTO addToRentalBox(@ApiParam(hidden = true) HttpSession httpSession, @RequestBody RentFilmEntryDTO rentFilmEntry);
 
     @ApiOperation(value = "Remove film from temporary rental box")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully removed film from rental box", response = RentOrderDraftDTO.class),
-            @ApiResponse(code = 409, message = "Business error occured", response = Error.class),
+            @ApiResponse(code = 200, message = "Successfully removed film from rental box", response = RentalOrderDraftDTO.class),
+            @ApiResponse(code = 417, message = "Business error occured", response = Error.class),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     void removeFromRentalBox(HttpSession httpSession, @RequestParam Long filmId);
 
-    @ApiOperation(value = "Get details about current rental box", response = RentOrderDraftDTO.class)
+    @ApiOperation(value = "Get details about current rental box", response = RentalOrderDraftDTO.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully fetched rental box details", response = RentOrderDraftDTO.class),
-            @ApiResponse(code = 409, message = "Business error occured", response = Error.class),
+            @ApiResponse(code = 200, message = "Successfully fetched rental box details", response = RentalOrderDraftDTO.class),
+            @ApiResponse(code = 417, message = "Business error occured", response = Error.class),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    RentOrderDraftDTO getCurrentBoxDetails(@ApiParam(hidden = true) HttpSession httpSession);
+    RentalOrderDraftDTO getCurrentBoxDetails(@ApiParam(hidden = true) HttpSession httpSession);
 
-    @ApiOperation(value = "Rent films from your rental box", response = RentOrderDTO.class)
+    @ApiOperation(value = "Rent films from your rental box", response = RentalOrderDTO.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully completed rental order", response = RentOrderDTO.class),
-            @ApiResponse(code = 409, message = "Business error occured", response = Error.class),
+            @ApiResponse(code = 200, message = "Successfully completed rental order", response = RentalOrderDTO.class),
+            @ApiResponse(code = 417, message = "Business error occured", response = Error.class),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    RentOrderDTO rent(@RequestParam Long customerId, @ApiParam(hidden = true) HttpSession httpSession);
+    RentalOrderDTO rent(@RequestParam Long customerId, @ApiParam(hidden = true) HttpSession httpSession);
 
-    @ApiOperation(value = "Get details about rental order", response = RentOrderDTO.class)
+    @ApiOperation(value = "Get details about rental order", response = RentalOrderDTO.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully fetched rental order details", response = RentOrderDTO.class),
-            @ApiResponse(code = 409, message = "Business error occured", response = Error.class),
+            @ApiResponse(code = 200, message = "Successfully fetched rental order details", response = RentalOrderDTO.class),
+            @ApiResponse(code = 417, message = "Business error occured", response = Error.class),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    RentOrderDTO getDetails(@PathVariable Long rentalOrderId);
+    RentalOrderDTO getDetails(@PathVariable Long rentalOrderId);
 
     @ApiOperation(value = "Return film to inventory", response = RentalDTO.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully returned film to inventory", response = RentalDTO.class),
-            @ApiResponse(code = 409, message = "Business error occured", response = Error.class),
+            @ApiResponse(code = 417, message = "Business error occured", response = Error.class),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
     RentalDTO returnFilm(@RequestParam Long rentalId);

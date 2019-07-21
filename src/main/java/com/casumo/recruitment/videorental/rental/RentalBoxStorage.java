@@ -15,10 +15,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter
 public class RentalBoxStorage {
 
-    private Map<String, RentOrderDraftDTO> boxes = new ConcurrentHashMap<>();
+    private Map<String, RentalOrderDraftDTO> boxes = new ConcurrentHashMap<>();
 
-    public RentOrderDraftDTO find(String sessionId) {
-        RentOrderDraftDTO rentalOrder = boxes.get(sessionId);
+    public RentalOrderDraftDTO find(String sessionId) {
+        RentalOrderDraftDTO rentalOrder = boxes.get(sessionId);
         return Optional.ofNullable(rentalOrder)
                 .orElseThrow(() -> new RentalOrderNotFoundException(Collections.singletonMap("sessionId", sessionId)));
     }
@@ -27,23 +27,23 @@ public class RentalBoxStorage {
         return Optional.ofNullable(boxes.get(sessionId)).isPresent();
     }
 
-    public RentOrderDraftDTO add(String sessionId, RentFilmEntryDTO entry) {
-        RentOrderDraftDTO rentalOrder = find(sessionId);
+    public RentalOrderDraftDTO add(String sessionId, RentFilmEntryDTO entry) {
+        RentalOrderDraftDTO rentalOrderDraft = find(sessionId);
 
-        if (rentalOrder.getFilms().contains(entry)) {
+        if (rentalOrderDraft.getFilms().contains(entry)) {
             throw new FilmAlreadyExistsInBoxException(Collections.singletonMap("id", String.valueOf(entry.getFilmId())));
         }
 
-        rentalOrder.getFilms().add(entry);
+        rentalOrderDraft.getFilms().add(entry);
 
-        BigDecimal currentFinalPrice = rentalOrder.getTotalPrice().add(entry.getPrice());
-        rentalOrder.setTotalPrice(currentFinalPrice);
+        BigDecimal currentFinalPrice = rentalOrderDraft.getTotalPrice().add(entry.getPrice());
+        rentalOrderDraft.setTotalPrice(currentFinalPrice);
 
-        return boxes.put(sessionId, rentalOrder);
+        return boxes.put(sessionId, rentalOrderDraft);
     }
 
     public void initialize(String sessionId) {
-        boxes.put(sessionId, new RentOrderDraftDTO());
+        boxes.put(sessionId, new RentalOrderDraftDTO());
     }
 
     public void clear(String sessionId) {
@@ -51,12 +51,17 @@ public class RentalBoxStorage {
     }
 
     public void remove(String sessionId, Long filmId) {
-        RentOrderDraftDTO rentalOrderDraft = find(sessionId);
+        RentalOrderDraftDTO rentalOrderDraft = find(sessionId);
         RentFilmEntryDTO entryToRemove = rentalOrderDraft.getFilms().stream().filter(entry -> entry.getFilmId().equals(filmId))
                 .findAny()
                 .orElseThrow(() -> new NoSuchFilmInBoxException(Collections.singletonMap("id", String.valueOf(filmId))));
 
         rentalOrderDraft.getFilms().remove(entryToRemove);
+
+        BigDecimal currentFinalPrice = rentalOrderDraft.getTotalPrice().subtract(entryToRemove.getPrice());
+        rentalOrderDraft.setTotalPrice(currentFinalPrice);
+
         boxes.put(sessionId, rentalOrderDraft);
     }
+
 }

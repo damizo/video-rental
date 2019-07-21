@@ -5,14 +5,12 @@ import com.casumo.recruitment.videorental.customer.CustomerRepository;
 import com.casumo.recruitment.videorental.film.Film;
 import com.casumo.recruitment.videorental.film.FilmRepository;
 import com.casumo.recruitment.videorental.film.FilmType;
-import com.casumo.recruitment.videorental.rental.RentFilmEntryDTO;
 import com.casumo.recruitment.videorental.rental.RentalOrderRepository;
 import com.casumo.recruitment.videorental.rental.RentalRepository;
+import com.casumo.recruitment.videorental.shared.CurrencyType;
 import com.casumo.recruitment.videorental.shared.domain.PersonalData;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
 
 @Component
 @AllArgsConstructor
@@ -22,7 +20,6 @@ public class DataContainer {
     private final CustomerRepository customerRepository;
     private final RentalRepository rentalRepository;
     private final RentalOrderRepository rentalOrderRepository;
-
 
     public void initializeCustomers() {
         customerRepository.save(customer());
@@ -45,6 +42,7 @@ public class DataContainer {
     public Customer customer() {
         return Customer.builder()
                 .bonusPoints(10)
+                .currency(CurrencyType.SEK)
                 .personalData(PersonalData.builder()
                         .email("hello@casumo.com")
                         .firstName("Andrew")
@@ -85,22 +83,4 @@ public class DataContainer {
                 .build();
     }
 
-    public RentFilmEntryDTO matrixEntry(Integer days) {
-        return new RentFilmEntryDTO(Identifiers.ONE, days, BigDecimal.ZERO);
-    }
-
-    public RentFilmEntryDTO spiderManEntry(Integer days) {
-        return new RentFilmEntryDTO(Identifiers.TWO, days, BigDecimal.ZERO);
-    }
-
-    public RentFilmEntryDTO outOfAfricaEntry(Integer days) {
-        return new RentFilmEntryDTO(Identifiers.FOUR, days, BigDecimal.ZERO);
-    }
-
-    private static final class Identifiers {
-        private static final Long ONE = 1L;
-        private static final Long TWO = 2L;
-        private static final Long THREE = 3L;
-        private static final Long FOUR = 4L;
-    }
 }

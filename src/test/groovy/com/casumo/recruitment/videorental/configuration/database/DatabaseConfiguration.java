@@ -17,7 +17,7 @@ public class DatabaseConfiguration {
     @Bean
     public DataContainer dataContainer(FilmRepository filmRepository, CustomerRepository customerRepository,
                                        RentalRepository rentalRepository, RentalOrderRepository rentalOrderRepository) {
-        return new DataContainer(filmRepository, customerRepository, rentalRepository, rentalOrderRepository);
+        return new TestDataContainer(filmRepository, customerRepository, rentalRepository, rentalOrderRepository);
     }
 
     @Bean

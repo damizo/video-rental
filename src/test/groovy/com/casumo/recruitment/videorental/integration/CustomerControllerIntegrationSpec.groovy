@@ -1,18 +1,18 @@
 package com.casumo.recruitment.videorental.integration
 
-import com.casumo.recruitment.videorental.infrastructure.DataContainer
-import com.casumo.recruitment.videorental.IntegrationSpec
+
 import com.casumo.recruitment.videorental.configuration.customer.CustomerConfiguration
 import com.casumo.recruitment.videorental.configuration.database.DatabaseConfiguration
-import com.casumo.recruitment.videorental.customer.Customer
 import com.casumo.recruitment.videorental.customer.CustomerController
-import com.casumo.recruitment.videorental.shared.domain.PersonalData
+import com.casumo.recruitment.videorental.customer.CustomerDTO
+import com.casumo.recruitment.videorental.infrastructure.IntegrationSpec
+import com.casumo.recruitment.videorental.shared.CurrencyType
+import com.casumo.recruitment.videorental.shared.dto.PersonalDataDTO
 import com.casumo.recruitment.videorental.shared.time.TimeProvider
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -33,17 +33,13 @@ class CustomerControllerIntegrationSpec extends IntegrationSpec {
     @Autowired
     private CustomerController customerController
 
-    @Autowired
-    protected DataContainer dataContainer
-
-    protected MockMvc mockMvc
-
     def setup() {
+
         this.mockMvc = MockMvcBuilders
                 .standaloneSetup(customerController)
+                .setControllerAdvice(restControllerAdvice)
                 .alwaysDo(MockMvcResultHandlers.print())
                 .build()
-
         dataContainer.initializeCustomers()
     }
 
@@ -54,11 +50,11 @@ class CustomerControllerIntegrationSpec extends IntegrationSpec {
 
     def 'should get details about customer'() {
         when: 'I ask about customer details'
-        Customer customer = dataContainer.customer()
+        CustomerDTO customer = dataContainer.customerDTO()
         Long customerId = customer.id
 
         ResultActions getCustomerDetailsResultAction = this.mockMvc
-                .perform(get('/api/customer/{customerId}', customerId)
+                .perform(get('/api/customers/{customerId}', customerId)
                 .contentType(MediaType.APPLICATION_JSON))
 
         then: 'I get customer details'
@@ -69,36 +65,83 @@ class CustomerControllerIntegrationSpec extends IntegrationSpec {
 
     def 'should create new customer'() {
         when: 'I create new customer'
-        PersonalData personalData = PersonalData.builder()
+        PersonalDataDTO personalData = PersonalDataDTO.builder()
                 .email("john@google.com")
                 .firstName("John")
                 .lastName("Smith")
                 .build()
 
         ResultActions customerResponse = this.mockMvc
-                .perform(post('/api/customer')
+                .perform(post('/api/customers')
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(buildJson(personalData)))
 
         then: 'New customer has been created'
-        Long customerId = 2L;
-        Customer customer = Customer.builder()
+        Long customerId = 2L
+        CustomerDTO customer = CustomerDTO.builder()
                 .id(customerId)
                 .personalData(personalData)
+                .currency(CurrencyType.SEK.name())
                 .build()
 
         customerResponse
                 .andExpect(status().isOk())
                 .andExpect(content().json(buildJson(customer)))
 
-        and: 'Is stored in database'
+        and: 'Customer is stored in database'
         ResultActions getCustomerDetailsResultAction = this.mockMvc
-                .perform(get('/api/customer/{customerId}', customerId)
+                .perform(get('/api/customers/{customerId}', customerId)
                 .contentType(MediaType.APPLICATION_JSON))
 
         getCustomerDetailsResultAction
                 .andExpect(status().isOk())
                 .andExpect(content().json(buildJson(customer)))
 
+    }
+
+    def 'should not create same customer twice'() {
+        when: 'I create new customer'
+        PersonalDataDTO personalData = PersonalDataDTO.builder()
+                .email("john@google.com")
+                .firstName("John")
+                .lastName("Smith")
+                .build()
+
+        ResultActions createCustomerResultAction = this.mockMvc
+                .perform(post('/api/customers')
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(buildJson(personalData)))
+
+        then: 'New customer has been created'
+        Long customerId = 2L
+        CustomerDTO customer = CustomerDTO.builder()
+                .id(customerId)
+                .personalData(personalData)
+                .currency(CurrencyType.SEK.name())
+                .build()
+
+        createCustomerResultAction
+                .andExpect(status().isOk())
+                .andExpect(content().json(buildJson(customer)))
+
+        and: 'Customer is stored in database'
+        ResultActions getCustomerDetailsResultAction = this.mockMvc
+                .perform(get('/api/customers/{customerId}', customerId)
+                .contentType(MediaType.APPLICATION_JSON))
+
+        getCustomerDetailsResultAction
+                .andExpect(status().isOk())
+                .andExpect(content().json(buildJson(customer)))
+
+        when: 'I create customer with same data twice'
+        ResultActions createCustomerFailureResultAction = this.mockMvc
+                .perform(post('/api/customers')
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(buildJson(personalData)))
+
+        then:
+        createCustomerFailureResultAction
+                .andExpect(status()
+                .is4xxClientError())
     }
 }

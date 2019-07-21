@@ -25,19 +25,19 @@ public class RentalFacade {
     private CustomerRepository customerRepository;
     private FilmRepository filmRepository;
     private RentalRepository rentalRepository;
-    private RentalOrderRepository orderRepository;
+    private RentalOrderRepository rentalOrderRepository;
     private RentalFactory rentalFactory;
     private RentalMapper rentalMapper;
     private TimeProvider timeProvider;
 
-    public RentOrderDTO completeOrder(Long customerId, RentOrderDraftDTO rentalOrderDraft) {
+    public RentalOrderDTO completeOrder(Long customerId, RentalOrderDraftDTO rentalOrderDraft) {
         List<Rental> rentals = rentalOrderDraft.getFilms()
                 .stream()
                 .map(rentFilmEntry -> rent(customerId, rentFilmEntry.getFilmId(), rentFilmEntry.getNumberOfDays()))
                 .collect(Collectors.toList());
 
         RentalOrder newRentalOrder = rentalFactory.create(rentals);
-        newRentalOrder = orderRepository.save(newRentalOrder);
+        newRentalOrder = rentalOrderRepository.save(newRentalOrder);
         return rentalMapper.toDTO(newRentalOrder);
     }
 
@@ -48,8 +48,8 @@ public class RentalFacade {
                 .orElseThrow(() -> new ReturnFilmException(Collections.singletonMap("id", String.valueOf(id))));
     }
 
-    public RentOrderDTO find(Long rentalOrderId) {
-        RentalOrder rentalOrder = orderRepository.findById(rentalOrderId)
+    public RentalOrderDTO find(Long rentalOrderId) {
+        RentalOrder rentalOrder = rentalOrderRepository.findById(rentalOrderId)
                 .orElseThrow(() -> new RentalOrderNotFoundException(Collections.singletonMap("id", String.valueOf(rentalOrderId))));
         return rentalMapper.toDTO(rentalOrder);
     }

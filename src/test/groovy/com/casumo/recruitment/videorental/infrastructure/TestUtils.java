@@ -1,4 +1,4 @@
-package com.casumo.recruitment.videorental;
+package com.casumo.recruitment.videorental.infrastructure;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

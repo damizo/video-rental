@@ -25,8 +25,8 @@ public class RentalMapper {
                 .build();
     }
 
-    public RentOrderDTO toDTO(RentalOrder rentalOrder) {
-        return RentOrderDTO.builder()
+    public RentalOrderDTO toDTO(RentalOrder rentalOrder) {
+        return RentalOrderDTO.builder()
                 .id(rentalOrder.getId())
                 .rentals(rentalOrder.getRentals()
                         .stream()

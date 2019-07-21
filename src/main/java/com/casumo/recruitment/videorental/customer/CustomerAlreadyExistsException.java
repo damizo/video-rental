@@ -1,4 +1,4 @@
-package com.casumo.recruitment.videorental.customer.exception;
+package com.casumo.recruitment.videorental.customer;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

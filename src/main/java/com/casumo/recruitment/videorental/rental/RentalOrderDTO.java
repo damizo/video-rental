@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @Builder(toBuilder = true)
-public class RentOrderDTO {
+public class RentalOrderDTO {
 
     private Long id;
     private List<RentalDTO> rentals;

@@ -1,6 +1,7 @@
-package com.casumo.recruitment.videorental
+package com.casumo.recruitment.videorental.infrastructure
 
-
+import com.casumo.recruitment.videorental.GlobalRestControllerAdvice
+import com.casumo.recruitment.videorental.configuration.database.TestDataContainer
 import com.casumo.recruitment.videorental.shared.time.TimeProvider
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.mock.web.MockHttpSession
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.web.servlet.MockMvc
 import spock.lang.Specification
 
 @ContextConfiguration
@@ -22,7 +24,15 @@ class IntegrationSpec extends Specification {
     protected MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter;
 
     @Autowired
+    protected TestDataContainer dataContainer
+
+    @Autowired
     protected TimeProvider timeProvider;
+
+    @Autowired
+    protected MockHttpSession httpSession
+
+    protected MockMvc mockMvc
 
     protected static final String buildJson(Object object) {
         return TestUtils.mapToJson(object)

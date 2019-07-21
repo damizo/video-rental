@@ -1,11 +1,11 @@
 package com.casumo.recruitment.videorental.customer;
 
-import com.casumo.recruitment.videorental.shared.domain.PersonalData;
+import com.casumo.recruitment.videorental.shared.dto.PersonalDataDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/customer")
+@RequestMapping("/api/customers")
 @AllArgsConstructor
 public class CustomerController implements CustomerSwaggerDocumentation {
 
@@ -17,7 +17,7 @@ public class CustomerController implements CustomerSwaggerDocumentation {
     }
 
     @PostMapping
-    public CustomerDTO create(@RequestBody PersonalData personalData) {
+    public CustomerDTO create(@RequestBody PersonalDataDTO personalData) {
         return customerFacade.createCustomer(personalData);
     }
 }

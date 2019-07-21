@@ -14,4 +14,5 @@ public class CustomerDTO {
     private Long id;
     private Integer bonusPoints;
     private PersonalDataDTO personalData;
+    private String currency;
 }

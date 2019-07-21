@@ -1,6 +1,6 @@
 package com.casumo.recruitment.videorental;
 
-import com.casumo.recruitment.videorental.customer.exception.CustomerAlreadyExistsException;
+import com.casumo.recruitment.videorental.customer.CustomerAlreadyExistsException;
 import com.casumo.recruitment.videorental.film.FilmNotFoundException;
 import com.casumo.recruitment.videorental.infrastructure.Error;
 import com.casumo.recruitment.videorental.rental.CannotCalculatePriceException;
@@ -58,7 +58,7 @@ public class GlobalRestControllerAdvice extends ResponseEntityExceptionHandler {
     @ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
     public Error handleFilmAlreadyExistsInBoxException(FilmAlreadyExistsInBoxException e) {
         return Error.builder()
-                .message("Film already exists")
+                .message("Film already exists in box")
                 .params(Collections.unmodifiableMap(e.getParams()))
                 .build();
     }
