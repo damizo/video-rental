@@ -41,7 +41,7 @@ I focused on business problem, usability, scalability (no overengineering) and w
 Please find described endpoints below:
 <b>http://localhost:8080/swagger-ui.html</b>    
     
-Whole rental process is based on temporary <b>RentalOrderDraft</b> which lasts among http session and is stored in <b>RentalBox</b>. <b>RentalBox</b> is a storage, that contains choices of <b>Rental</b>, chosen by <b>Customer</b>. If <b> Customer</b> decides to rent all films from <b>RentalBox</b>, then it becomes <b>RentalOrder</b>, which aggregates all positions of <b>Rental</b>.
+Whole rental process is based on temporary <b>RentalOrderDraft</b> which lasts among http session and is stored in <b>RentalBox</b>. <b>RentalBox</b> is a storage, that contains <b>Rental</b> choices, chosen by <b>Customer</b>. If <b> Customer</b> decides to rent all films from <b>RentalBox</b>, then it becomes <b>RentalOrder</b>, which aggregates all <b>Rental</b> positions.
   
 Find description below how to reproduce rental process, step by step:    
     
