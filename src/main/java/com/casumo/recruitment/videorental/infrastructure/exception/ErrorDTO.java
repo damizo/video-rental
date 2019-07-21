@@ -7,7 +7,7 @@ import java.util.Map;
 
 @Builder
 @Data
-public class Error {
+public class ErrorDTO {
     private String message;
     private Map<String, String> params;
 }

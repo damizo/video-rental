@@ -3,8 +3,10 @@ package com.casumo.recruitment.videorental;
 import com.casumo.recruitment.videorental.customer.CannotCreateCustomerException;
 import com.casumo.recruitment.videorental.customer.CustomerAlreadyExistsException;
 import com.casumo.recruitment.videorental.customer.CustomerNotFoundException;
+import com.casumo.recruitment.videorental.film.FilmAlreadyExistsException;
 import com.casumo.recruitment.videorental.film.FilmNotFoundException;
-import com.casumo.recruitment.videorental.infrastructure.exception.Error;
+import com.casumo.recruitment.videorental.film.FilmTypeNotFoundException;
+import com.casumo.recruitment.videorental.infrastructure.exception.ErrorDTO;
 import com.casumo.recruitment.videorental.rental.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,8 +21,8 @@ public class GlobalRestControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(FilmNotFoundException.class)
     @ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
-    public Error handleFilmNotFoundException(FilmNotFoundException e) {
-        return Error.builder()
+    public ErrorDTO handleFilmNotFoundException(FilmNotFoundException e) {
+        return ErrorDTO.builder()
                 .message("Film not found")
                 .params(Collections.unmodifiableMap(e.getParams()))
                 .build();
@@ -28,17 +30,35 @@ public class GlobalRestControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CustomerNotFoundException.class)
     @ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
-    public Error handleCustomerNotFound(CustomerNotFoundException e) {
-        return Error.builder()
+    public ErrorDTO handleCustomerNotFound(CustomerNotFoundException e) {
+        return ErrorDTO.builder()
                 .message("Customer not found")
+                .params(Collections.unmodifiableMap(e.getParams()))
+                .build();
+    }
+
+    @ExceptionHandler(RentalNotFoundException.class)
+    @ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
+    public ErrorDTO handleRentalNotFoundException(RentalNotFoundException e) {
+        return ErrorDTO.builder()
+                .message("Rental not found")
+                .params(Collections.unmodifiableMap(e.getParams()))
+                .build();
+    }
+
+    @ExceptionHandler(RentalOrderNotFoundException.class)
+    @ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
+    public ErrorDTO handleRentalOrderNotFoundException(RentalOrderNotFoundException e) {
+        return ErrorDTO.builder()
+                .message("Rental order not found")
                 .params(Collections.unmodifiableMap(e.getParams()))
                 .build();
     }
 
     @ExceptionHandler(NoCalculationTypeFoundException.class)
     @ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
-    public Error handleNoCalculationTypeFoundException(NoCalculationTypeFoundException e) {
-        return Error.builder()
+    public ErrorDTO handleNoCalculationTypeFoundException(NoCalculationTypeFoundException e) {
+        return ErrorDTO.builder()
                 .message("No calculation found for such film type")
                 .params(Collections.unmodifiableMap(e.getParams()))
                 .build();
@@ -46,8 +66,8 @@ public class GlobalRestControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CustomerAlreadyExistsException.class)
     @ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
-    public Error handleCustomerAlreadyExistsException(CustomerAlreadyExistsException e) {
-        return Error.builder()
+    public ErrorDTO handleCustomerAlreadyExistsException(CustomerAlreadyExistsException e) {
+        return ErrorDTO.builder()
                 .message("Customer wiith particular email already exists")
                 .params(Collections.unmodifiableMap(e.getParams()))
                 .build();
@@ -55,8 +75,8 @@ public class GlobalRestControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NoSuchFilmInBoxException.class)
     @ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
-    public Error handleNoSuchFilmInBoxException(NoSuchFilmInBoxException e) {
-        return Error.builder()
+    public ErrorDTO handleNoSuchFilmInBoxException(NoSuchFilmInBoxException e) {
+        return ErrorDTO.builder()
                 .message("Such film not found in rental box")
                 .params(Collections.unmodifiableMap(e.getParams()))
                 .build();
@@ -64,17 +84,35 @@ public class GlobalRestControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(FilmAlreadyExistsInBoxException.class)
     @ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
-    public Error handleFilmAlreadyExistsInBoxException(FilmAlreadyExistsInBoxException e) {
-        return Error.builder()
+    public ErrorDTO handleFilmAlreadyExistsInBoxException(FilmAlreadyExistsInBoxException e) {
+        return ErrorDTO.builder()
                 .message("Film already exists in box")
+                .params(Collections.unmodifiableMap(e.getParams()))
+                .build();
+    }
+
+    @ExceptionHandler(FilmAlreadyExistsException.class)
+    @ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
+    public ErrorDTO handleFilmAlreadyExistsException(FilmAlreadyExistsException e) {
+        return ErrorDTO.builder()
+                .message("Film already exists in database")
+                .params(Collections.unmodifiableMap(e.getParams()))
+                .build();
+    }
+
+    @ExceptionHandler(FilmTypeNotFoundException.class)
+    @ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
+    public ErrorDTO handleFilmTypeNotFoundException(FilmTypeNotFoundException e) {
+        return ErrorDTO.builder()
+                .message("Film type not found")
                 .params(Collections.unmodifiableMap(e.getParams()))
                 .build();
     }
 
     @ExceptionHandler(CannotCalculatePriceException.class)
     @ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
-    public Error handleCannotCalculatePriceException(CannotCalculatePriceException e) {
-        return Error.builder()
+    public ErrorDTO handleCannotCalculatePriceException(CannotCalculatePriceException e) {
+        return ErrorDTO.builder()
                 .message("Cannot calculate price")
                 .params(Collections.unmodifiableMap(e.getParams()))
                 .build();
@@ -82,8 +120,8 @@ public class GlobalRestControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CannotCreateCustomerException.class)
     @ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
-    public Error handleCannotCreateCustomerException(CannotCreateCustomerException e) {
-        return Error.builder()
+    public ErrorDTO handleCannotCreateCustomerException(CannotCreateCustomerException e) {
+        return ErrorDTO.builder()
                 .message("Cannot create customer")
                 .params(Collections.unmodifiableMap(e.getParams()))
                 .build();
@@ -91,8 +129,8 @@ public class GlobalRestControllerAdvice extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CannotCreateRentalOrderException.class)
     @ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
-    public Error handleCannotCreateRentalOrderException(CannotCreateRentalOrderException e) {
-        return Error.builder()
+    public ErrorDTO handleCannotCreateRentalOrderException(CannotCreateRentalOrderException e) {
+        return ErrorDTO.builder()
                 .message("Cannot create rental order")
                 .params(Collections.emptyMap())
                 .build();

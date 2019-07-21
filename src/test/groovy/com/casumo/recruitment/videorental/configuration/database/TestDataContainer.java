@@ -6,6 +6,7 @@ import com.casumo.recruitment.videorental.customer.CustomerRepository;
 import com.casumo.recruitment.videorental.film.Film;
 import com.casumo.recruitment.videorental.film.FilmDTO;
 import com.casumo.recruitment.videorental.film.FilmRepository;
+import com.casumo.recruitment.videorental.film.FilmType;
 import com.casumo.recruitment.videorental.infrastructure.DataContainer;
 import com.casumo.recruitment.videorental.rental.RentFilmEntryDTO;
 import com.casumo.recruitment.videorental.rental.RentalOrderRepository;
@@ -54,6 +55,14 @@ public class TestDataContainer extends DataContainer {
                 .firstName(personalData.getFirstName())
                 .lastName(personalData.getLastName())
                 .email(personalData.getEmail())
+                .build();
+    }
+
+    public FilmDTO newGodfatherDTO() {
+        return FilmDTO.builder()
+                .title("Godfather")
+                .barCode("F11439")
+                .type(FilmType.OLD.name())
                 .build();
     }
 

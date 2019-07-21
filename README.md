@@ -27,7 +27,7 @@ Why I decide on such move:
 - Behaviour Driven Development
 - Rich Domain Model and package granulation oriented on domain (borrowed from DDD)
 
-*conscious lack of authentication for simplificity and lack of unit tests for mappers
+for simplificity conscious lack of authentication with authentication 
 
 ### Setup
 
@@ -43,16 +43,17 @@ mvn spring-boot:run -Dspring.profiles.active=test
 <b>http://localhost:8080/swagger-ui.html</b>
 
 Whole rental process is based on temporary <b>RentalBox</b> which lasts with http session.
-Steps placed chronological:
+Find description below how to reproduce rental process, step by step:
 
-- Add film with declared number of days to rental box 
-- Confirm rental
+- Add film to rental box 
+- Confirm rental order
 - Return film
 - Fetch details about rental order
 
 Each film must be returned independently from order
 
-Besides that there is few other endpoints:
+Besides that API offers few other endpoints:
+- Add film
 - Get films
 - Get film details
 - Create customer
@@ -60,6 +61,6 @@ Besides that there is few other endpoints:
 
 Examples of usage are placed in <b>examples</b> folder
 
-
-REST API intentionally without authentication 
-
+REST API is intentionally:
+- without authentication/authorization
+- without pagination

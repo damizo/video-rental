@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "Add item to rental box",
+			"name": "Add film to rental box",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -17,7 +17,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"filmId\":3,\n\t\"numberOfDays\": 1\n}"
+					"raw": "{\n\t\"filmId\":10,\n\t\"numberOfDays\": 10\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/api/rentals/box",
@@ -36,7 +36,7 @@
 			"response": []
 		},
 		{
-			"name": "Confirm rent",
+			"name": "Confirm rental order",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -63,6 +63,34 @@
 			"response": []
 		},
 		{
+			"name": "Return film",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/api/rentals/returns?rentalId=7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"rentals",
+						"returns"
+					],
+					"query": [
+						{
+							"key": "rentalId",
+							"value": "7"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get order rental details",
 			"request": {
 				"method": "GET",
@@ -80,7 +108,7 @@
 				],
 				"body": {},
 				"url": {
-					"raw": "http://localhost:8080/api/rentals/9",
+					"raw": "http://localhost:8080/api/rentals/7",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -89,35 +117,7 @@
 					"path": [
 						"api",
 						"rentals",
-						"9"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Return film",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {},
-				"url": {
-					"raw": "http://localhost:8080/api/rentals/returns?rentalId=6",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"rentals",
-						"returns"
-					],
-					"query": [
-						{
-							"key": "rentalId",
-							"value": "6"
-						}
+						"7"
 					]
 				}
 			},
@@ -127,12 +127,7 @@
 			"name": "Remove film from rental box",
 			"request": {
 				"method": "DELETE",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": ""
@@ -196,7 +191,12 @@
 				"header": [
 					{
 						"key": "",
-						"value": ""
+						"value": "",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
 					}
 				],
 				"body": {
@@ -241,6 +241,35 @@
 			"response": []
 		},
 		{
+			"name": "Add film",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"barCode\": \"F10005\",\n    \"title\": \"Godfather\",\n    \"type\": \"OLD\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/films",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"films"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get films",
 			"request": {
 				"method": "GET",
@@ -268,7 +297,7 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://localhost:8080/api/films/1",
+					"raw": "http://localhost:8080/api/films/10",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -277,7 +306,7 @@
 					"path": [
 						"api",
 						"films",
-						"1"
+						"10"
 					]
 				}
 			},

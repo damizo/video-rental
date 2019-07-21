@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class InMemoryFilmRepository implements FilmRepository {
@@ -20,6 +21,23 @@ public class InMemoryFilmRepository implements FilmRepository {
     @Override
     public Optional<Film> findById(Long filmId) {
         return Optional.ofNullable(films.get(filmId));
+    }
+
+    @Override
+    public Optional<Film> findByBarCode(String barCode) {
+        return findBy(film -> film.getBarCode().equals(barCode));
+    }
+
+    @Override
+    public Optional<Film> findByTitle(String title) {
+        return findBy(film -> film.getTitle().equals(title));
+    }
+
+    private Optional<Film> findBy(Predicate<Film> predicate) {
+        return films.entrySet().stream()
+                .map(Map.Entry::getValue)
+                .filter(predicate)
+                .findAny();
     }
 
     @Override

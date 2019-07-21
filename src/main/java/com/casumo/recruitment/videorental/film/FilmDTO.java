@@ -1,10 +1,14 @@
 package com.casumo.recruitment.videorental.film;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder(toBuilder = true)
 public class FilmDTO {
 
     private Long id;

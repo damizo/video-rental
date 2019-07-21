@@ -15,4 +15,13 @@ public class FilmMapper {
                 .type(Optional.ofNullable(film.getType()).map(Enum::name).orElse(null))
                 .build();
     }
+
+    public Film toDomain(FilmDTO film) {
+        return Film.builder()
+                .id(film.getId())
+                .barCode(film.getBarCode())
+                .title(film.getTitle())
+                .type(Optional.of(FilmType.valueOf(film.getType().toUpperCase())).orElse(null))
+                .build();
+    }
 }
