@@ -48,10 +48,11 @@ public class Rental {
     private BigDecimal price = BigDecimal.ZERO;
     private BigDecimal surcharge = BigDecimal.ZERO;
 
-    public void rent(LocalDate rentDate) {
+    public Rental rent(LocalDate rentDate) {
         this.rentalStatus = RentalStatus.STARTED;
         this.rentDate = rentDate;
         this.price = calculatePrice();
+        return this;
     }
 
     public Rental returnFilm(LocalDate returnDate) {

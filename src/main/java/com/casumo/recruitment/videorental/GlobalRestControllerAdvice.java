@@ -1,12 +1,11 @@
 package com.casumo.recruitment.videorental;
 
+import com.casumo.recruitment.videorental.customer.CannotCreateCustomerException;
 import com.casumo.recruitment.videorental.customer.CustomerAlreadyExistsException;
+import com.casumo.recruitment.videorental.customer.CustomerNotFoundException;
 import com.casumo.recruitment.videorental.film.FilmNotFoundException;
 import com.casumo.recruitment.videorental.infrastructure.exception.Error;
-import com.casumo.recruitment.videorental.rental.CannotCalculatePriceException;
-import com.casumo.recruitment.videorental.rental.FilmAlreadyExistsInBoxException;
-import com.casumo.recruitment.videorental.rental.NoCalculationTypeFoundException;
-import com.casumo.recruitment.videorental.rental.NoSuchFilmInBoxException;
+import com.casumo.recruitment.videorental.rental.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -23,6 +22,15 @@ public class GlobalRestControllerAdvice extends ResponseEntityExceptionHandler {
     public Error handleFilmNotFoundException(FilmNotFoundException e) {
         return Error.builder()
                 .message("Film not found")
+                .params(Collections.unmodifiableMap(e.getParams()))
+                .build();
+    }
+
+    @ExceptionHandler(CustomerNotFoundException.class)
+    @ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
+    public Error handleCustomerNotFound(CustomerNotFoundException e) {
+        return Error.builder()
+                .message("Customer not found")
                 .params(Collections.unmodifiableMap(e.getParams()))
                 .build();
     }
@@ -71,4 +79,23 @@ public class GlobalRestControllerAdvice extends ResponseEntityExceptionHandler {
                 .params(Collections.unmodifiableMap(e.getParams()))
                 .build();
     }
+
+    @ExceptionHandler(CannotCreateCustomerException.class)
+    @ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
+    public Error handleCannotCreateCustomerException(CannotCreateCustomerException e) {
+        return Error.builder()
+                .message("Cannot create customer")
+                .params(Collections.unmodifiableMap(e.getParams()))
+                .build();
+    }
+
+    @ExceptionHandler(CannotCreateRentalOrderException.class)
+    @ResponseStatus(code = HttpStatus.EXPECTATION_FAILED)
+    public Error handleCannotCreateRentalOrderException(CannotCreateRentalOrderException e) {
+        return Error.builder()
+                .message("Cannot create rental order")
+                .params(Collections.emptyMap())
+                .build();
+    }
+
 }

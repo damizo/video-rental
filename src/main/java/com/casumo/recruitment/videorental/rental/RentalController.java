@@ -2,6 +2,7 @@ package com.casumo.recruitment.videorental.rental;
 
 import com.casumo.recruitment.videorental.film.FilmFacade;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;

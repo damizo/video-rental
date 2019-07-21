@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Component
 public class TestDataContainer extends DataContainer {
@@ -43,7 +44,7 @@ public class TestDataContainer extends DataContainer {
         return CustomerDTO.builder()
                 .id(Identifiers.ONE)
                 .currency(customer.getCurrency().name())
-                .bonusPoints(customer.getBonusPoints())
+                .bonusPoints(Optional.ofNullable(customer.getBonusPoints()).orElse(0))
                 .personalData(personalData)
                 .build();
     }

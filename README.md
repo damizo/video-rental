@@ -27,7 +27,7 @@ Why I decide on such move:
 - Behaviour Driven Development
 - Rich Domain Model and package granulation oriented on domain (borrowed from DDD)
 
-*conscious lack of authentication for simplificity
+*conscious lack of authentication for simplificity and lack of unit tests for mappers
 
 ### Setup
 

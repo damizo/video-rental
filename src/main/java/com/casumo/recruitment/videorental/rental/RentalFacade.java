@@ -1,6 +1,7 @@
 package com.casumo.recruitment.videorental.rental;
 
 import com.casumo.recruitment.videorental.customer.Customer;
+import com.casumo.recruitment.videorental.customer.CustomerNotFoundException;
 import com.casumo.recruitment.videorental.customer.CustomerRepository;
 import com.casumo.recruitment.videorental.film.Film;
 import com.casumo.recruitment.videorental.film.FilmNotFoundException;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,27 +38,32 @@ public class RentalFacade {
                 .map(rentFilmEntry -> rent(customerId, rentFilmEntry.getFilmId(), rentFilmEntry.getNumberOfDays()))
                 .collect(Collectors.toList());
 
-        RentalOrder newRentalOrder = rentalFactory.create(rentals);
-        newRentalOrder = rentalOrderRepository.save(newRentalOrder);
-        return rentalMapper.toDTO(newRentalOrder);
+        return Optional.ofNullable(rentalFactory.create(rentals))
+                .map(rental -> rentalOrderRepository.save(rental))
+                .map(rentalMapper::toDTO)
+                .orElseThrow(() -> new CannotCreateRentalOrderException(Collections
+                        .singletonMap("customerId", String.valueOf(customerId))));
     }
 
     public RentalDTO returnFilm(Long id) {
         return rentalRepository.findById(id)
                 .map(rental -> rental.returnFilm(timeProvider.today()))
                 .map(rental -> rentalMapper.toDTO(rental))
-                .orElseThrow(() -> new ReturnFilmException(Collections.singletonMap("id", String.valueOf(id))));
+                .orElseThrow(() -> new ReturnFilmException(Collections
+                        .singletonMap("id", String.valueOf(id))));
     }
 
     public RentalOrderDTO find(Long rentalOrderId) {
-        RentalOrder rentalOrder = rentalOrderRepository.findById(rentalOrderId)
-                .orElseThrow(() -> new RentalOrderNotFoundException(Collections.singletonMap("id", String.valueOf(rentalOrderId))));
-        return rentalMapper.toDTO(rentalOrder);
+        return rentalOrderRepository.findById(rentalOrderId)
+                .map(rental -> rentalMapper.toDTO(rental))
+                .orElseThrow(() -> new RentalOrderNotFoundException(Collections
+                        .singletonMap("id", String.valueOf(rentalOrderId))));
     }
 
     private Rental rent(Long customerId, Long filmId, Integer numberOfDays) {
         Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new CustomerNotFoundException(Collections
+                        .singletonMap("id", String.valueOf(customerId))));
 
         Film film = filmRepository.findById(filmId)
                 .orElseThrow(() -> new FilmNotFoundException(Collections.singletonMap("id", String.valueOf(filmId))));
@@ -65,8 +72,9 @@ public class RentalFacade {
 
         LocalDate today = timeProvider.today();
 
-        Rental rental = rentalFactory.create(customer, today, film.getType(), today.plusDays(numberOfDays));
-        rental.rent(timeProvider.today());
-        return rentalRepository.save(rental);
+        return Optional.ofNullable(rentalFactory.create(customer, today, film.getType(), today.plusDays(numberOfDays)))
+                .map(rental -> rental.rent(timeProvider.today()))
+                .map(rentalRepository::save)
+                .orElseThrow(() -> new CannotCreateRentalOrderException(Collections.singletonMap("filmId", String.valueOf(filmId))));
     }
 }

@@ -83,6 +83,7 @@ class CustomerControllerIntegrationSpec extends IntegrationSpec {
         Long customerId = 2L
         CustomerDTO customer = CustomerDTO.builder()
                 .id(customerId)
+                .bonusPoints(0)
                 .personalData(personalData)
                 .currency(CurrencyType.SEK.name())
                 .build()
@@ -119,6 +120,7 @@ class CustomerControllerIntegrationSpec extends IntegrationSpec {
         Long customerId = 2L
         CustomerDTO customer = CustomerDTO.builder()
                 .id(customerId)
+                .bonusPoints(0)
                 .personalData(personalData)
                 .currency(CurrencyType.SEK.name())
                 .build()
